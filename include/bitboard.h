@@ -27,4 +27,3 @@ constexpr BitBoard BB_Rank8 = BB_Rank1 << (8 * 7);
 void prettyPrint(BitBoard b);
 void binaryPrint(BitBoard b);
 void boardPrint(BitBoard b);
-void betterPrettyPrint(BitBoard b);

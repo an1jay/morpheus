@@ -3,16 +3,14 @@
 
 int main(int argc, char *argv[])
 {
-	std::cout << "Hello World!" << std::endl;
 
-	std::cout << "Better print" << std::endl;
-	betterPrettyPrint(BB_FileA);
 	std::cout << "Pretty print" << std::endl;
-	prettyPrint(BB_FileA);
+	prettyPrint(BB_Rank1);
 
 	std::cout << std::endl;
-	binaryPrint(BB_FileA);
+	binaryPrint(BB_Rank1);
 	std::cout << std::endl;
 
-	boardPrint(BB_FileA);
+	boardPrint(BB_Rank1);
+	
 }
