@@ -16,8 +16,7 @@ int main()
 
 	boardPrint(test);
 
-	fileFinder(test);
-
-	rankFinder(test);
+	std::cout << "bishop attacks" << std::endl ;
+	boardPrint(bishopAttacks(test));
 	
 }

@@ -8,10 +8,16 @@
 BitBoard bishopAttacks(BitBoard b) {
     int bishop_rank = rankFinder(b);
     int bishop_file = fileFinder(b);
+    BitBoard attacks;
     for (int i=0 ; i<NUM_SQUARES_BOARD ; i++) {
-        rank
+        BitBoard test_bb = 1 << i ;
+        int test_rank = rankFinder(test_bb);
+        int test_file = fileFinder(test_bb);
+        if (abs(test_rank - bishop_rank) == abs(test_file - bishop_file)) {
+            attacks += test_bb;
+        }
     }
-
+    return attacks;
 }
 
 int rankFinder(BitBoard b) {
