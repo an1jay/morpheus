@@ -13,7 +13,7 @@ void prettyPrint(BitBoard b)
         {
             if ((b >> (NUM_SQUARES_BOARD - 1 - (r * NUM_SQUARES_LINE + sq))) & 1)
             {
-                std::cout << "X";
+                std::cout << "p";
             }
             else
             {
@@ -24,6 +24,29 @@ void prettyPrint(BitBoard b)
     std::cout << "|" << std::endl
               << "|  8th R |  7th R |  6th R |  5th R |  4th R |  3rd R |  2nd R |  1st R |" << std::endl;
 }
+
+void betterPrettyPrint(BitBoard b)
+{
+    std::cout << "|  8th R |  7th R |  6th R |  5th R |  4th R |  3rd R |  2nd R |  1st R |" << std::endl;
+    for (int r = NUM_RANKS - 1; r >= 0; --r)
+    {
+        std::cout << "|";
+        for (int sq = NUM_SQUARES_LINE - 1; sq >= 0; --sq)
+        {
+            if ((b >> (r * NUM_SQUARES_LINE - sq)) & 1)
+            {
+                std::cout << "X" << sq;
+            }
+            else
+            {
+                std::cout << "-";
+            }
+        }
+    }
+    std::cout << "|" << std::endl
+              << "|  8th R |  7th R |  6th R |  5th R |  4th R |  3rd R |  2nd R |  1st R |" << std::endl;
+}
+
 void binaryPrint(BitBoard b)
 {
     std::cout << std::bitset<64>(b) << std::endl;
