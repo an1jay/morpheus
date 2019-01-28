@@ -58,7 +58,7 @@ BitBoard generateBitBoard(const Square sq)
     return (BitBoard)1 << (int)sq;
 }
 
-bool occupied(const BitBoard b, const Square s)
+bool occupied(const BitBoard b, const Square sq)
 {
-    return __builtin_popcount(b & generateBitBoard(s));
+    return __builtin_popcount(b & generateBitBoard(sq));
 }

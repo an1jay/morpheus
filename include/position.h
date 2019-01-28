@@ -15,6 +15,9 @@ class Position
     BitBoard WhitePieces;
     BitBoard BlackPieces;
 
+    Piece pieceAtSquare(Square sq);           // Returns the piece at a square
+    BitBoard BBForPiece(const Piece p) const; // Returns a bitboard for a piece
+
   public:
     Position(BitBoard pawns, BitBoard knights, BitBoard bishops,
              BitBoard rooks, BitBoard queens, BitBoard kings,
@@ -25,5 +28,5 @@ class Position
 
     ~Position();
 
-    BitBoard BBForPiece(const Piece p) const;
+    void Display() const;
 };

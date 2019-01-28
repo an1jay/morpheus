@@ -13,4 +13,3 @@ BitBoard queenAttacks(const BitBoard b);
 BitBoard pawnAttacks(const BitBoard b, const Color c);
 BitBoard pawnMoves(const BitBoard b, const Color c);
 
-

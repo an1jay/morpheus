@@ -5,7 +5,7 @@
 typedef uint64_t BitBoard;
 
 constexpr BitBoard BB_AllSquares = ~0;
-constexpr BitBoard BB_NoneSquares = 0;
+constexpr BitBoard BB_NoSquares = 0;
 
 constexpr BitBoard BB_FileA = 0x0101010101010101ULL;
 constexpr BitBoard BB_FileB = BB_FileA << 1;
@@ -25,9 +25,11 @@ constexpr BitBoard BB_Rank6 = BB_Rank1 << (8 * 5);
 constexpr BitBoard BB_Rank7 = BB_Rank1 << (8 * 6);
 constexpr BitBoard BB_Rank8 = BB_Rank1 << (8 * 7);
 
+constexpr BitBoard Edges = BB_FileA | BB_FileH | BB_Rank1 | BB_Rank8;
+
 void binaryPrint(BitBoard b); // Prints the bitboard as a binary number
 void prettyPrint(BitBoard b); // Prints the bitboard as a binary number in a slightly more readable way
 void boardPrint(BitBoard b);  // Prints the bitboard as a chess board
 
-bool occupied(const BitBoard b, const Square s); // Checks whether the square s is occupied on the bitboard b
-BitBoard generateBitBoard(const Square s);       // Generates a bitboard with the square bit set to one
+bool occupied(const BitBoard b, const Square sq); // Checks whether the square s is occupied on the bitboard b
+BitBoard generateBitBoard(const Square sq);       // Generates a bitboard with the square bit set to one

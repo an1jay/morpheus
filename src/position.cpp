@@ -1,4 +1,6 @@
 #include "position.h"
+#include "bitboard.h"
+#include "constants.h"
 
 BitBoard Position::BBForPiece(const Piece p) const
 {
@@ -31,6 +33,26 @@ BitBoard Position::BBForPiece(const Piece p) const
         return Kings & BlackPieces;
 
     default:
-        return BB_NoneSquares;
+        return BB_NoSquares;
+    }
+}
+
+void Position::Display() const
+{
+}
+
+Piece Position::pieceAtSquare(Square sq)
+{
+    BitBoard sqBB = generateBitBoard(sq);
+    if ((sqBB & WhitePieces) == BB_NoSquares || (sqBB & BlackPieces) == BB_NoSquares)
+    {
+        return Piece::PIECE_NONE;
+    }
+    else
+    {
+        for (int i = 0; i < NUM_PIECES; i++)
+        {
+            /* code */
+        }
     }
 }
