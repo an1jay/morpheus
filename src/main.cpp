@@ -6,16 +6,17 @@
 int main()
 {
 
-	std::cout << "Pretty print" << std::endl;
-	// prettyPrint(BB_Rank1);
+    std::cout << "Pretty print" << std::endl;
+    // prettyPrint(BB_Rank1);
 
 	BitBoard test = generateBitBoard(Square::SQ_B2) ;
+    BitBoard test = (BitBoard)1 << 45;
 
-	std::cout << std::endl;
-	binaryPrint(test);
-	std::cout << std::endl;
+    std::cout << std::endl;
+    binaryPrint(test);
+    std::cout << std::endl;
 
-	boardPrint(test);
+    boardPrint(test);
 
 	std::cout << "knight attacks" << std::endl ;
 	boardPrint(knightAttacks(test));
@@ -29,4 +30,6 @@ int main()
 
 
 	
+    std::cout << "bishop attacks" << std::endl;
+    boardPrint(bishopAttacks(test));
 }
