@@ -4,13 +4,12 @@
 int main(int argc, char *argv[])
 {
 
-	std::cout << "Pretty print" << std::endl;
-	prettyPrint(BB_Rank1);
+    std::cout << "Pretty print" << std::endl;
+    prettyPrint(BB_Rank1);
 
-	std::cout << std::endl;
-	binaryPrint(BB_Rank1);
-	std::cout << std::endl;
+    std::cout << std::endl;
+    binaryPrint(BB_Rank1);
+    std::cout << std::endl;
 
-	boardPrint(BB_Rank1);
-	
+    boardPrint(BB_Rank1);
 }
