@@ -5,7 +5,6 @@
 int main()
 {
 
-<<<<<<< HEAD
 	std::cout << "Pretty print" << std::endl;
 	// prettyPrint(BB_Rank1);
 
@@ -21,7 +20,4 @@ int main()
 
 	rankFinder(test);
 	
-=======
- 
->>>>>>> e287521142b37c16ae58646b745f834947214cbf
 }
