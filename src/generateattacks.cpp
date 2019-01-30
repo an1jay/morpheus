@@ -142,7 +142,3 @@ int fileFinder(BitBoard b)
     // std::cout << "file " << n << std::endl ;
     return n;
 }
-
-BitBoard bishopAttacksMask(BitBoard sq, BitBoard occ)
-{
-}

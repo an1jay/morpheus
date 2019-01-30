@@ -3,7 +3,7 @@
 #pragma once
 
 // Defining the various squares on the board
-enum class Square : int
+enum class Square : int_fast8_t
 {
     // clang-format off
     A1, B1, C1, D1, E1, F1, G1, H1,
@@ -19,7 +19,7 @@ enum class Square : int
 };
 
 // Defining the various files on the board
-enum class File : int
+enum class File : int_fast8_t
 {
     // clang-format off
     FA, FB, FC, FD, FE, FF, FG, H,
@@ -28,7 +28,7 @@ enum class File : int
 };
 
 // Defining the various ranks on the board
-enum class Rank : int
+enum class Rank : int_fast8_t
 {
     // clang-format off
     R1, R2, R3, R4, R5, R6, R7, R8,
@@ -37,7 +37,7 @@ enum class Rank : int
 };
 
 // Defining the various pieces
-enum class Piece : int
+enum class Piece : int_fast8_t
 {
     // clang-format off
     W_PAWN = 1, W_KNIGHT, W_BISHOP, W_ROOK, W_QUEEN, W_KING,
@@ -47,7 +47,7 @@ enum class Piece : int
 };
 
 // Defining the various piece types
-enum class PieceType : int
+enum class PieceType : int_fast8_t
 {
     // clang-format off
     PAWN, KNIGHT, BISHOOP, ROOK, QUEEN, KING,
@@ -55,9 +55,20 @@ enum class PieceType : int
 };
 
 // Defining the various colors
-enum class Color : int
+enum class Color : int_fast8_t
 {
     COLOR_WHITE = 1,
     COLOR_BLACK = -1,
     COLOR_NONE = 0,
 };
+
+inline Color PieceColor(Piece p)
+{
+    if (p == Piece::PIECE_NONE)
+        return Color::COLOR_NONE;
+    if ((int)p < 8)
+    {
+        return Color::COLOR_WHITE;
+    }
+    return Color::COLOR_BLACK;
+}

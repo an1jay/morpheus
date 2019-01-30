@@ -1,6 +1,89 @@
 #include "position.h"
 #include "bitboard.h"
 #include "constants.h"
+#include <iostream>
+
+Position::~Position() {}
+
+Position::Position()
+{
+    // clang-format off
+    Piece newGamePos[64] = {
+        Piece::W_ROOK, Piece::W_KNIGHT, Piece::W_BISHOP, Piece::W_QUEEN, Piece::W_KING, Piece::W_BISHOP, Piece::W_KNIGHT, Piece::W_ROOK,
+        Piece::W_PAWN, Piece::W_PAWN, Piece::W_PAWN, Piece::W_PAWN, Piece::W_PAWN, Piece::W_PAWN, Piece::W_PAWN, Piece::W_PAWN, 
+        Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE,
+        Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, 
+        Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE,
+        Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE, Piece::PIECE_NONE,
+        Piece::B_PAWN, Piece::B_PAWN, Piece::B_PAWN, Piece::B_PAWN, Piece::B_PAWN, Piece::B_PAWN, Piece::B_PAWN, Piece::B_PAWN,
+        Piece::B_ROOK, Piece::B_KNIGHT, Piece::B_BISHOP, Piece::B_QUEEN, Piece::B_KING, Piece::B_BISHOP, Piece::B_KNIGHT, Piece::B_ROOK,
+    };
+    // clang-format on
+    PieceList = MailBox(newGamePos);
+    UpdateBitBoards();
+}
+
+void Position::UpdateBitBoards()
+{
+    Piece p;
+    for (int sq = 0; sq < NUM_SQUARES_BOARD; ++sq)
+    {
+        p = PieceList.Occupation((Square)sq);
+        switch (p)
+        {
+        case Piece::W_PAWN:
+        case Piece::B_PAWN:
+            Pawns ^= generateBB((Square)sq);
+            if (PieceColor(p) == Color::COLOR_WHITE)
+                WhitePieces ^= generateBB((Square)sq);
+            else
+                BlackPieces ^= generateBB((Square)sq);
+            break;
+        case Piece::W_KNIGHT:
+        case Piece::B_KNIGHT:
+            Knights ^= generateBB((Square)sq);
+            if (PieceColor(p) == Color::COLOR_WHITE)
+                WhitePieces ^= generateBB((Square)sq);
+            else
+                BlackPieces ^= generateBB((Square)sq);
+            break;
+        case Piece::W_BISHOP:
+        case Piece::B_BISHOP:
+            Bishops ^= generateBB((Square)sq);
+            if (PieceColor(p) == Color::COLOR_WHITE)
+                WhitePieces ^= generateBB((Square)sq);
+            else
+                BlackPieces ^= generateBB((Square)sq);
+            break;
+        case Piece::W_ROOK:
+        case Piece::B_ROOK:
+            Rooks ^= generateBB((Square)sq);
+            if (PieceColor(p) == Color::COLOR_WHITE)
+                WhitePieces ^= generateBB((Square)sq);
+            else
+                BlackPieces ^= generateBB((Square)sq);
+            break;
+        case Piece::W_QUEEN:
+        case Piece::B_QUEEN:
+            Queens ^= generateBB((Square)sq);
+            if (PieceColor(p) == Color::COLOR_WHITE)
+                WhitePieces ^= generateBB((Square)sq);
+            else
+                BlackPieces ^= generateBB((Square)sq);
+            break;
+        case Piece::W_KING:
+        case Piece::B_KING:
+            Kings ^= generateBB((Square)sq);
+            if (PieceColor(p) == Color::COLOR_WHITE)
+                WhitePieces ^= generateBB((Square)sq);
+            else
+                BlackPieces ^= generateBB((Square)sq);
+            break;
+        default:
+            break;
+        }
+    }
+}
 
 BitBoard Position::BBForPiece(const Piece p) const
 {
@@ -39,21 +122,24 @@ BitBoard Position::BBForPiece(const Piece p) const
 
 void Position::Display() const
 {
+    for (int r = NUM_RANKS - 1; r >= 0; --r)
+    {
+        std::cout << std::endl
+                  << "  |---|---|---|---|---|---|---|---|" << std::endl;
+        std::cout << 1 + r << " |";
+        for (int sq = 0; sq < NUM_SQUARES_LINE; ++sq)
+        {
+            std::cout << " " << PieceChars[(int)PieceList.Occupation((Square)(r * NUM_SQUARES_LINE + sq))] << " |";
+        }
+    }
+    std::cout << std::endl
+              << "  |---|---|---|---|---|---|---|---|" << std::endl
+              << std::endl
+              << "    A   B   C   D   E   F   G   H" << std::endl
+              << std::endl;
 }
 
 Piece Position::pieceAtSquare(Square sq)
 {
-    BitBoard sqBB = generateBitBoard(sq);
-    if ((sqBB & WhitePieces) == BB_NoSquares || (sqBB & BlackPieces) == BB_NoSquares)
-    {
-        return Piece::PIECE_NONE;
-    }
-    else
-    {
-        for (int i = 0; i < NUM_PIECES; i++)
-        {
-            /* code */
-        }
-    }
-    return Piece::PIECE_NONE;
+    return PieceList.Occupation(sq);
 }
