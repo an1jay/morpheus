@@ -5,11 +5,10 @@
 
 int fileFinder(BitBoard b);
 int rankFinder(BitBoard b);
-BitBoard bishopAttacks(const BitBoard b);
-BitBoard rookAttacks(const BitBoard b);
+BitBoard bishopAttacksMask(const BitBoard b);
+BitBoard rookAttacksMask(const BitBoard b);
 BitBoard knightAttacks(const BitBoard b);
 BitBoard kingAttacks(const BitBoard b);
-BitBoard queenAttacks(const BitBoard b);
+BitBoard queenAttacksMask(const BitBoard b);
 BitBoard pawnAttacks(const BitBoard b, const Color c);
 BitBoard pawnMoves(const BitBoard b, const Color c);
-

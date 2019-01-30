@@ -27,9 +27,10 @@ constexpr BitBoard BB_Rank8 = BB_Rank1 << (8 * 7);
 
 constexpr BitBoard Edges = BB_FileA | BB_FileH | BB_Rank1 | BB_Rank8;
 
-void binaryPrint(BitBoard b); // Prints the bitboard as a binary number
-void prettyPrint(BitBoard b); // Prints the bitboard as a binary number in a slightly more readable way
-void boardPrint(BitBoard b);  // Prints the bitboard as a chess board
+void binaryPrint(BitBoard b);      // Prints the bitboard as a binary number
+void prettyPrint(BitBoard b);      // Prints the bitboard as a binary number in a slightly more readable way
+void boardPrint(BitBoard b);       // Prints the bitboard as a chess board
+BitBoard reverseBoard(BitBoard b); // reverses the bitboard
 
 bool occupied(const BitBoard b, const Square sq); // Checks whether the square s is occupied on the bitboard b
 BitBoard generateBitBoard(const Square sq);       // Generates a bitboard with the square bit set to one

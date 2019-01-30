@@ -3,7 +3,7 @@
 #include "constants.h"
 #include <iostream>
 
-BitBoard bishopAttacks(const BitBoard b)
+BitBoard bishopAttacksMask(const BitBoard b)
 {
     int bishop_rank = rankFinder(b);
     int bishop_file = fileFinder(b);
@@ -21,7 +21,7 @@ BitBoard bishopAttacks(const BitBoard b)
     return attacks & ~b;
 }
 
-BitBoard rookAttacks(const BitBoard b)
+BitBoard rookAttacksMask(const BitBoard b)
 {
     int rook_rank = rankFinder(b);
     int rook_file = fileFinder(b);
@@ -59,9 +59,9 @@ BitBoard knightAttacks(const BitBoard b)
     return attacks & ~b;
 }
 
-BitBoard queenAttacks(const BitBoard b)
+BitBoard queenAttacksMask(const BitBoard b)
 {
-    return bishopAttacks(b) | rookAttacks(b);
+    return bishopAttacksMask(b) | rookAttacksMask(b);
 }
 
 BitBoard kingAttacks(const BitBoard b)
@@ -141,4 +141,8 @@ int fileFinder(BitBoard b)
     };
     // std::cout << "file " << n << std::endl ;
     return n;
+}
+
+BitBoard bishopAttacksMask(BitBoard sq, BitBoard occ)
+{
 }
