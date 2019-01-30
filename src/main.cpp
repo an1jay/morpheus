@@ -7,9 +7,5 @@
 int main()
 {
 
-    Position p = Position();
-    p.Display();
-
-    BitBoard b = generateBB(Square::A1);
-    BBboardPrint(b);
+    generateMovesArray(Piece::W_KING);
 }

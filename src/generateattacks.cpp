@@ -142,3 +142,57 @@ int fileFinder(BitBoard b)
     // std::cout << "file " << n << std::endl ;
     return n;
 }
+
+void generateMovesArray(Piece p)
+{
+    BitBoard piecePos;
+    for (int sq = 0; sq < NUM_SQUARES_BOARD; ++sq)
+    {
+        piecePos = generateBB((Square)sq);
+        switch (p)
+        {
+        case Piece::W_BISHOP:
+            std::cout << (uint64_t)bishopAttacksMask(piecePos) << ", ";
+            if ((sq + 1) % 8 == 0)
+            {
+                std::cout << std::endl;
+            }
+            break;
+
+        case Piece::W_KNIGHT:
+            std::cout << (uint64_t)knightAttacks(piecePos) << ", ";
+            if ((sq + 1) % 8 == 0)
+            {
+                std::cout << std::endl;
+            }
+            break;
+
+        case Piece::W_KING:
+            std::cout << (uint64_t)kingAttacks(piecePos) << ", ";
+            if ((sq + 1) % 8 == 0)
+            {
+                std::cout << std::endl;
+            }
+            break;
+
+        case Piece::W_ROOK:
+            std::cout << (uint64_t)rookAttacksMask(piecePos) << ", ";
+            if ((sq + 1) % 8 == 0)
+            {
+                std::cout << std::endl;
+            }
+            break;
+
+        case Piece::W_QUEEN:
+            std::cout << (uint64_t)queenAttacksMask(piecePos) << ", ";
+            if ((sq + 1) % 8 == 0)
+            {
+                std::cout << std::endl;
+            }
+            break;
+
+        default:
+            break;
+        }
+    }
+}
