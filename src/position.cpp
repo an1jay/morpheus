@@ -55,4 +55,5 @@ Piece Position::pieceAtSquare(Square sq)
             /* code */
         }
     }
+    return Piece::PIECE_NONE;
 }

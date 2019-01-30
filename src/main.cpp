@@ -10,7 +10,6 @@ int main()
     // prettyPrint(BB_Rank1);
 
     BitBoard test = generateBitBoard(Square::B2);
-    BitBoard test = (BitBoard)1 << 45;
 
     std::cout << std::endl;
     binaryPrint(test);
