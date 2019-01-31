@@ -26,4 +26,4 @@ BitBoard popLeadingOne(BitBoard b);
 
 void permuteBishopOccupancy(BitBoard b);
 void appendBishOcc(BitBoard b, BitBoard *arr, int count);
-void NewAppendBishOcc(BitBoard b, BitBoard *arr, int count);
+void NewAppendBishOcc(BitBoard b, BitBoard *arr, int *count);

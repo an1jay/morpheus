@@ -69,8 +69,11 @@ void permuteBishopOccupancy(BitBoard b)
 {
     // BitBoard locs[9];
     BitBoard rv[512] = {(BitBoard)0};
-    NewAppendBishOcc(b, rv, 0);
-    for (size_t i = 0; i < 512; i++)
+    rv[0] = b;
+    int count = 1;
+    NewAppendBishOcc(b, rv, &count);
+    std::cout << "something in between" << std::endl;
+    for (size_t i = 0; i < 50; i++)
     {
         BBbinaryPrint(rv[i]);
     }
@@ -92,18 +95,54 @@ void appendBishOcc(BitBoard b, BitBoard *arr, int count)
     }
 }
 
-void NewAppendBishOcc(BitBoard b, BitBoard *arr, int count)
+void NewAppendBishOcc(BitBoard b, BitBoard *arr, int *count)
 {
-    // std::cout << "NEw Append";
-    arr[count] = b;
-    // for (int i = 0; i < 64 - __builtin_clzll((uint64_t)b); i++)
-    for (int i = 0; i < 64; i++)
+    if (countBB(b) == 1)
     {
-        if ((b >> i) & 1)
+        arr[(*count)] = b;
+        arr[(*count) + 1] = 0;
+        return;
+    }
+
+    BitBoard newb;
+    bool randombool = false;
+
+    for (int i = 0; i < 64 - -__builtin_clzll((uint64_t)b); i++)
+    {
+        randombool = false;
+        if (b & generateBB((Square)i))
         {
-            NewAppendBishOcc(b ^ ((BitBoard)1 << i), arr, count + 1);
+            newb = b ^ generateBB((Square)i);
+            for (int n = 0; n <= *count; n++)
+            {
+                if (arr[n] == newb)
+                {
+                    randombool = true;
+                    break;
+                }
+            }
+            if (randombool)
+            {
+                continue;
+            }
+            arr[(*count)] = newb;
+            BBbinaryPrint(arr[(*count)]);
+            std::cout << "(*count)" << (*count) << " ";
+            (*count)++;
+            NewAppendBishOcc(arr[(*count) - 1], arr, count);
         }
     }
+
+    // // std::cout << "NEw Append";
+    // arr[count] = b;
+    // // for (int i = 0; i < 64 - __builtin_clzll((uint64_t)b); i++)
+    // for (int i = 0; i < 64; i++)
+    // {
+    //     if ((b >> i) & 1)
+    //     {
+    //         NewAppendBishOcc(b ^ ((BitBoard)1 << i), arr, count + 1);
+    //     }
+    // }
 }
 
 BitBoard popLeadingOne(BitBoard b)

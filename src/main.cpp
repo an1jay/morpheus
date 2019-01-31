@@ -6,10 +6,6 @@
 
 int main()
 {
-    // Magics m = Magics();
-    BitBoard b = (BitBoard)0xF0FULL;
-    // BBbinaryPrint(b ^ ((BitBoard)1 << 3));
-    // BBbinaryPrint(popLeadingOne(b));
-
+    BitBoard b = 0xFULL;
     permuteBishopOccupancy(b);
 }
