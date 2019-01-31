@@ -13,3 +13,4 @@ BitBoard queenAttacksMask(const BitBoard b);
 BitBoard pawnAttacks(const BitBoard b, const Color c);
 BitBoard pawnMoves(const BitBoard b, const Color c);
 void generateMovesArray(Piece p);
+void testMoves(Square sq);

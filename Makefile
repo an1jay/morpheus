@@ -1,5 +1,5 @@
 CC		:= g++
-C_FLAGS := -std=c++17 -Wall -Wextra -O3 -march=native
+C_FLAGS := -std=c++17 -Wall -Wextra -O3 -march=native -fext-numeric-literals
 
 BIN		:= bin
 SRC		:= src

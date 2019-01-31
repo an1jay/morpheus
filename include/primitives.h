@@ -50,7 +50,7 @@ enum class Piece : int_fast8_t
 enum class PieceType : int_fast8_t
 {
     // clang-format off
-    PAWN, KNIGHT, BISHOOP, ROOK, QUEEN, KING,
+    PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING,
     // clang-format on
 };
 

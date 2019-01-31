@@ -68,6 +68,11 @@ bool occupiedBB(const BitBoard b, const Square sq)
     return __builtin_popcount(b & generateBB(sq));
 }
 
+int countBB(const BitBoard b)
+{
+    return __builtin_popcount(b);
+}
+
 BitBoard reverseBoard(BitBoard b)
 {
     BitBoard rev = b;

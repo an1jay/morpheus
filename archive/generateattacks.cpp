@@ -152,7 +152,7 @@ void generateMovesArray(Piece p)
         switch (p)
         {
         case Piece::W_BISHOP:
-            std::cout << (uint64_t)bishopAttacksMask(piecePos) << ", ";
+            std::cout << (uint64_t)bishopAttacksMask(piecePos) << "ULL, ";
             if ((sq + 1) % 8 == 0)
             {
                 std::cout << std::endl;
@@ -160,7 +160,7 @@ void generateMovesArray(Piece p)
             break;
 
         case Piece::W_KNIGHT:
-            std::cout << (uint64_t)knightAttacks(piecePos) << ", ";
+            std::cout << (uint64_t)knightAttacks(piecePos) << "ULL, ";
             if ((sq + 1) % 8 == 0)
             {
                 std::cout << std::endl;
@@ -168,7 +168,7 @@ void generateMovesArray(Piece p)
             break;
 
         case Piece::W_KING:
-            std::cout << (uint64_t)kingAttacks(piecePos) << ", ";
+            std::cout << (uint64_t)kingAttacks(piecePos) << "ULL, ";
             if ((sq + 1) % 8 == 0)
             {
                 std::cout << std::endl;
@@ -176,7 +176,7 @@ void generateMovesArray(Piece p)
             break;
 
         case Piece::W_ROOK:
-            std::cout << (uint64_t)rookAttacksMask(piecePos) << ", ";
+            std::cout << (uint64_t)rookAttacksMask(piecePos) << "ULL, ";
             if ((sq + 1) % 8 == 0)
             {
                 std::cout << std::endl;
@@ -184,7 +184,7 @@ void generateMovesArray(Piece p)
             break;
 
         case Piece::W_QUEEN:
-            std::cout << (uint64_t)queenAttacksMask(piecePos) << ", ";
+            std::cout << (uint64_t)queenAttacksMask(piecePos) << "ULL, ";
             if ((sq + 1) % 8 == 0)
             {
                 std::cout << std::endl;
@@ -195,4 +195,19 @@ void generateMovesArray(Piece p)
             break;
         }
     }
+}
+
+void testMoves(Square sq)
+{
+    std::cout << "Square " << (int)sq << std::endl;
+    std::cout << "Knight Moves" << std::endl;
+    BBboardPrint(BlankKnightMoves[(int)sq]);
+    std::cout << "Bishop Moves" << std::endl;
+    BBboardPrint(BlankBishopMoves[(int)sq]);
+    std::cout << "Rook Moves" << std::endl;
+    BBboardPrint(BlankRookMoves[(int)sq]);
+    std::cout << "Queen Moves" << std::endl;
+    BBboardPrint(BlankQueenMoves[(int)sq]);
+    std::cout << "King Moves" << std::endl;
+    BBboardPrint(BlankKingMoves[(int)sq]);
 }
