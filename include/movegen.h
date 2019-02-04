@@ -23,6 +23,7 @@ class Magics
 
 BitBoard genRand();
 BitBoard popLeadingOne(BitBoard b);
+int positionLeadingOne(BitBoard b);
 
 void permuteBishopOccupancy(BitBoard b);
 void appendBishOcc(BitBoard b, BitBoard *arr, int count);

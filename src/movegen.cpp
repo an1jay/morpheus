@@ -153,7 +153,7 @@ BitBoard popLeadingOne(BitBoard b)
     return (b ^ ((uint64_t)1 << (63 - lz)));
 }
 
-BitBoard positionLeadingOne(BitBoard b)
+int positionLeadingOne(BitBoard b)
 {
     int lz = __builtin_clzll((uint64_t)b);
 
