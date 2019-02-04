@@ -73,7 +73,7 @@ BitBoard genRand()
             ((BitBoard)(rand() % (1 << 16)) << 48));
 }
 
-BitBoard *permuteBishopOccupancy(BitBoard b)
+void permuteBishopOccupancy(BitBoard b, BitBoard *arr)
 {
     // BitBoard locs[9];
     BitBoard rv[512] = {(BitBoard)0};
@@ -86,7 +86,7 @@ BitBoard *permuteBishopOccupancy(BitBoard b)
     //     BBbinaryPrint(rv[i]);
     // }
 
-    return rv;
+    arr = rv;
 }
 
 void AppendBishOcc(BitBoard b, BitBoard *arr, int *count)

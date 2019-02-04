@@ -6,7 +6,8 @@
 int rankFinder(BitBoard b);
 int fileFinder(BitBoard b);
 
-BitBoard ManualBishopAttacks(Square bishop, BitBoard occupancy);
+BitBoard ManualBishopAttacks(const Square bishop, const BitBoard occupancy);
+BitBoard ManualRookAttacks(const Square rook, const BitBoard occupancy);
 
 BitBoard Diagonal(Square sq);
 BitBoard AntiDiagonal(Square sq);

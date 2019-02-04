@@ -9,6 +9,7 @@ int main()
     BitBoard b = 0xFF00FF0009FFULL;
     BBboardPrint(b);
     BBboardPrint(ManualBishopAttacks(Square::D4, b));
+    BBboardPrint(ManualRookAttacks(Square::D4, b));
     // permuteBishopOccupancy(b);
     // BitBoard b = Diagonal(Square::E5);
     // BBboardPrint(b);

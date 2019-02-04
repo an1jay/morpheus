@@ -3,7 +3,7 @@
 #include "constants.h"
 #include "primitives.h"
 
-BitBoard ManualBishopAttacks(Square bishop, BitBoard occupancy)
+BitBoard ManualBishopAttacks(const Square bishop, const BitBoard occupancy)
 {
     BitBoard diagonal = Diagonal(bishop);
     BitBoard antidiagonal = AntiDiagonal(bishop);
@@ -15,6 +15,20 @@ BitBoard ManualBishopAttacks(Square bishop, BitBoard occupancy)
     //anti diagonals
     BitBoard antidiagAttacks = ((OccupiedInAntiDiagonal - 2 * piecePos) ^ BBreverse((BBreverse(OccupiedInAntiDiagonal) - 2 * BBreverse(piecePos)))) & antidiagonal;
     return diagAttacks | antidiagAttacks;
+}
+
+BitBoard ManualRookAttacks(Square rook, BitBoard occupancy)
+{
+    BitBoard rank = Rank(rook);
+    BitBoard file = File(rook);
+    BitBoard piecePos = BBgenerate(rook);
+    BitBoard OccupiedInRank = occupancy & rank;
+    BitBoard OccupiedInFile = occupancy & file;
+    //ranks
+    BitBoard rankAttacks = ((OccupiedInRank - 2 * piecePos) ^ BBreverse((BBreverse(OccupiedInRank) - 2 * BBreverse(piecePos)))) & rank;
+    //files
+    BitBoard fileAttacks = ((OccupiedInFile - 2 * piecePos) ^ BBreverse((BBreverse(OccupiedInFile) - 2 * BBreverse(piecePos)))) & file;
+    return rankAttacks | fileAttacks;
 }
 
 BitBoard File(Square sq)

@@ -25,5 +25,5 @@ BitBoard genRand();
 // BitBoard popLeadingOne(BitBoard b);
 // int positionLeadingOne(BitBoard b);
 
-BitBoard *permuteBishopOccupancy(BitBoard b);
+void permuteBishopOccupancy(BitBoard b, BitBoard *arr);
 void AppendBishOcc(BitBoard b, BitBoard *arr, int *count);
