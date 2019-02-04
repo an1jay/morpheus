@@ -6,6 +6,12 @@
 
 int main()
 {
-    BitBoard b = 0xFULL;
-    permuteBishopOccupancy(b);
+    BitBoard b = 0xFF00FF0009FFULL;
+    BBboardPrint(b);
+    BBboardPrint(ManualBishopAttacks(Square::D4, b));
+    // permuteBishopOccupancy(b);
+    // BitBoard b = Diagonal(Square::E5);
+    // BBboardPrint(b);
+    // b = AntiDiagonal(Square::D4);
+    // BBboardPrint(b);
 }

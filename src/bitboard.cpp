@@ -58,22 +58,22 @@ void BBboardPrint(const BitBoard b)
               << std::endl;
 }
 
-BitBoard generateBB(const Square sq)
+BitBoard BBgenerate(const Square sq)
 {
     return (BitBoard)1 << (int)sq;
 }
 
-bool occupiedBB(const BitBoard b, const Square sq)
+bool BBoccupied(const BitBoard b, const Square sq)
 {
-    return __builtin_popcount(b & generateBB(sq));
+    return __builtin_popcount(b & BBgenerate(sq));
 }
 
-int countBB(const BitBoard b)
+int BBcount(const BitBoard b)
 {
     return __builtin_popcount(b);
 }
 
-BitBoard reverseBoard(BitBoard b)
+BitBoard BBreverse(const BitBoard b)
 {
     BitBoard rev = b;
     rev = ((rev >> 1) & ((BitBoard)0x55555555 << 32 | 0x55555555)) | ((rev << 1) & ((BitBoard)0xaaaaaaaa << 32 | 0xaaaaaaaa));

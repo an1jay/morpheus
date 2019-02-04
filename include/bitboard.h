@@ -8,9 +8,10 @@ void BBbinaryPrint(BitBoard b); // Prints the bitboard as a binary number
 void BBprettyPrint(BitBoard b); // Prints the bitboard as a binary number in a slightly more readable way
 void BBboardPrint(BitBoard b);  // Prints the bitboard as a chess board
 
-bool occupiedBB(const BitBoard b, const Square sq); // Checks whether the square s is occupied on the bitboard b
-BitBoard generateBB(const Square sq);               // Generates a bitboard with the square bit set to one
-int countBB(const BitBoard b);                      // Returns number of occupancies
+bool BBoccupied(const BitBoard b, const Square sq); // Checks whether the square s is occupied on the bitboard b
+BitBoard BBgenerate(const Square sq);               // Generates a bitboard with the square bit set to one
+int BBcount(const BitBoard b);                      // Returns number of occupancies
+BitBoard BBreverse(const BitBoard b);               // Reverse the bitboard
 
 constexpr BitBoard BB_AllSquares = ~0;
 constexpr BitBoard BB_NoSquares = 0;

@@ -33,51 +33,51 @@ void Position::UpdateBitBoards()
         {
         case Piece::W_PAWN:
         case Piece::B_PAWN:
-            Pawns ^= generateBB((Square)sq);
+            Pawns ^= BBgenerate((Square)sq);
             if (PieceColor(p) == Color::COLOR_WHITE)
-                WhitePieces ^= generateBB((Square)sq);
+                WhitePieces ^= BBgenerate((Square)sq);
             else
-                BlackPieces ^= generateBB((Square)sq);
+                BlackPieces ^= BBgenerate((Square)sq);
             break;
         case Piece::W_KNIGHT:
         case Piece::B_KNIGHT:
-            Knights ^= generateBB((Square)sq);
+            Knights ^= BBgenerate((Square)sq);
             if (PieceColor(p) == Color::COLOR_WHITE)
-                WhitePieces ^= generateBB((Square)sq);
+                WhitePieces ^= BBgenerate((Square)sq);
             else
-                BlackPieces ^= generateBB((Square)sq);
+                BlackPieces ^= BBgenerate((Square)sq);
             break;
         case Piece::W_BISHOP:
         case Piece::B_BISHOP:
-            Bishops ^= generateBB((Square)sq);
+            Bishops ^= BBgenerate((Square)sq);
             if (PieceColor(p) == Color::COLOR_WHITE)
-                WhitePieces ^= generateBB((Square)sq);
+                WhitePieces ^= BBgenerate((Square)sq);
             else
-                BlackPieces ^= generateBB((Square)sq);
+                BlackPieces ^= BBgenerate((Square)sq);
             break;
         case Piece::W_ROOK:
         case Piece::B_ROOK:
-            Rooks ^= generateBB((Square)sq);
+            Rooks ^= BBgenerate((Square)sq);
             if (PieceColor(p) == Color::COLOR_WHITE)
-                WhitePieces ^= generateBB((Square)sq);
+                WhitePieces ^= BBgenerate((Square)sq);
             else
-                BlackPieces ^= generateBB((Square)sq);
+                BlackPieces ^= BBgenerate((Square)sq);
             break;
         case Piece::W_QUEEN:
         case Piece::B_QUEEN:
-            Queens ^= generateBB((Square)sq);
+            Queens ^= BBgenerate((Square)sq);
             if (PieceColor(p) == Color::COLOR_WHITE)
-                WhitePieces ^= generateBB((Square)sq);
+                WhitePieces ^= BBgenerate((Square)sq);
             else
-                BlackPieces ^= generateBB((Square)sq);
+                BlackPieces ^= BBgenerate((Square)sq);
             break;
         case Piece::W_KING:
         case Piece::B_KING:
-            Kings ^= generateBB((Square)sq);
+            Kings ^= BBgenerate((Square)sq);
             if (PieceColor(p) == Color::COLOR_WHITE)
-                WhitePieces ^= generateBB((Square)sq);
+                WhitePieces ^= BBgenerate((Square)sq);
             else
-                BlackPieces ^= generateBB((Square)sq);
+                BlackPieces ^= BBgenerate((Square)sq);
             break;
         default:
             break;

@@ -148,7 +148,7 @@ void generateMovesArray(Piece p)
     BitBoard piecePos;
     for (int sq = 0; sq < NUM_SQUARES_BOARD; ++sq)
     {
-        piecePos = generateBB((Square)sq);
+        piecePos = BBgenerate((Square)sq);
         switch (p)
         {
         case Piece::W_BISHOP:

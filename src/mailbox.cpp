@@ -43,7 +43,7 @@ BitBoard MailBox::Pieces(Piece p) const
     {
         if (list[sq] == p)
         {
-            blank = blank ^ generateBB((Square)sq);
+            blank = blank ^ BBgenerate((Square)sq);
         }
     }
     return blank;

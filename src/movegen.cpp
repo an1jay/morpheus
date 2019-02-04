@@ -2,160 +2,100 @@
 #include "bitboard.h"
 #include "constants.h"
 #include "primitives.h"
-#include <iostream>
-#include <stdlib.h>
-#include <time.h>
-#include <vector>
 
-Magics::Magics()
+BitBoard ManualBishopAttacks(Square bishop, BitBoard occupancy)
 {
-    initBishops();
-    initRooks();
+    BitBoard diagonal = Diagonal(bishop);
+    BitBoard antidiagonal = AntiDiagonal(bishop);
+    BitBoard piecePos = BBgenerate(bishop);
+    BitBoard OccupiedInDiagonal = occupancy & diagonal;
+    BitBoard OccupiedInAntiDiagonal = occupancy & antidiagonal;
+    //diagonals
+    BitBoard diagAttacks = ((OccupiedInDiagonal - 2 * piecePos) ^ BBreverse((BBreverse(OccupiedInDiagonal) - 2 * BBreverse(piecePos)))) & diagonal;
+    //anti diagonals
+    BitBoard antidiagAttacks = ((OccupiedInAntiDiagonal - 2 * piecePos) ^ BBreverse((BBreverse(OccupiedInAntiDiagonal) - 2 * BBreverse(piecePos)))) & antidiagonal;
+    return diagAttacks | antidiagAttacks;
 }
 
-BitBoard Magics::AttackFor(Square sq, BitBoard occupancy, PieceType PT) const
+BitBoard File(Square sq)
 {
-    BitBoard sqBB = generateBB(sq);
-    switch (PT)
+    int sq_file = fileFinder(BBgenerate(sq));
+    BitBoard result = BB_NoSquares;
+    for (int i = 0; i < NUM_SQUARES_BOARD; i++)
     {
-    case PieceType::BISHOP:
-        return BishopMagicAttacks[(occupancy * BishopMagics[(int)sq]) >> (64 - shift)];
-        break;
-    case PieceType::ROOK:
-        return RookMagicAttacks[(occupancy * RookMagics[(int)sq]) >> (64 - shift)];
-        break;
-
-    default:
-        return BB_AllSquares;
-        break;
-    }
-}
-
-void Magics::initBishops()
-{
-    BitBoard blankMoves;
-    BitBoard randnum;
-    BitBoard shifted;
-    srand(time(NULL));
-    for (int sq = 0; sq < NUM_SQUARES_BOARD; ++sq)
-    {
-        blankMoves = BlankBishopMoves[sq];
-        blankMoves &= ~BB_Edges;
-        do
+        if (fileFinder(BBgenerate((Square)i)) == sq_file)
         {
-            randnum = genRand();
-            shifted = blankMoves * randnum >> (64 - shift);
-        } while (countBB(shifted) < 6);
-        BishopMagics[sq] = randnum;
-        std::cout << "Square " << sq << "  Magic " << randnum << std::endl;
-        // BBboardPrint(shifted);
-    }
-}
-void Magics::initRooks()
-{
-    std::cout << "Not Implemented" << std::endl;
-}
-
-BitBoard genRand()
-{
-    // return (BitBoard)(rand() % (1 << 16)) << 48;
-    return ((BitBoard)(rand() % (1 << 16)) |
-            ((BitBoard)(rand() % (1 << 16)) << 16) |
-            ((BitBoard)(rand() % (1 << 16)) << 32) |
-            ((BitBoard)(rand() % (1 << 16)) << 48));
-}
-
-void permuteBishopOccupancy(BitBoard b)
-{
-    // BitBoard locs[9];
-    BitBoard rv[512] = {(BitBoard)0};
-    rv[0] = b;
-    int count = 1;
-    NewAppendBishOcc(b, rv, &count);
-    std::cout << "something in between" << std::endl;
-    for (size_t i = 0; i < 50; i++)
-    {
-        BBbinaryPrint(rv[i]);
-    }
-
-    // return rv;
-}
-
-void appendBishOcc(BitBoard b, BitBoard *arr, int count)
-{
-    if (countBB(b) == 1)
-    {
-        arr[count] = b;
-        arr[count + 1] = BB_NoSquares;
-    }
-    else
-    {
-        arr[count] = b;
-        appendBishOcc(popLeadingOne(b), arr, count + 1);
-    }
-}
-
-void NewAppendBishOcc(BitBoard b, BitBoard *arr, int *count)
-{
-    if (countBB(b) == 1)
-    {
-        arr[(*count)] = b;
-        arr[(*count) + 1] = 0;
-        return;
-    }
-
-    BitBoard newb;
-    bool randombool = false;
-
-    for (int i = 0; i < 64 - -__builtin_clzll((uint64_t)b); i++)
-    {
-        randombool = false;
-        if (b & generateBB((Square)i))
-        {
-            newb = b ^ generateBB((Square)i);
-            for (int n = 0; n <= *count; n++)
-            {
-                if (arr[n] == newb)
-                {
-                    randombool = true;
-                    break;
-                }
-            }
-            if (randombool)
-            {
-                continue;
-            }
-            arr[(*count)] = newb;
-            BBbinaryPrint(arr[(*count)]);
-            std::cout << "(*count)" << (*count) << " ";
-            (*count)++;
-            NewAppendBishOcc(arr[(*count) - 1], arr, count);
+            result |= BBgenerate((Square)i);
         }
     }
-
-    // // std::cout << "NEw Append";
-    // arr[count] = b;
-    // // for (int i = 0; i < 64 - __builtin_clzll((uint64_t)b); i++)
-    // for (int i = 0; i < 64; i++)
-    // {
-    //     if ((b >> i) & 1)
-    //     {
-    //         NewAppendBishOcc(b ^ ((BitBoard)1 << i), arr, count + 1);
-    //     }
-    // }
+    return result;
 }
 
-BitBoard popLeadingOne(BitBoard b)
+BitBoard Rank(Square sq)
 {
-    int lz = __builtin_clzll((uint64_t)b);
-    // std::cout << "lz " << lz << std::endl;
-    // std::cout << "64 - lz" << 63 - lz << std::endl;
-    return (b ^ ((uint64_t)1 << (63 - lz)));
+    int sq_rank = rankFinder(BBgenerate(sq));
+    BitBoard result = BB_NoSquares;
+    for (int i = 0; i < NUM_SQUARES_BOARD; i++)
+    {
+        if (rankFinder(BBgenerate((Square)i)) == sq_rank)
+        {
+            result |= BBgenerate((Square)i);
+        }
+    }
+    return result;
 }
 
-int positionLeadingOne(BitBoard b)
+BitBoard Diagonal(Square sq)
 {
-    int lz = __builtin_clzll((uint64_t)b);
+    int sq_file = fileFinder(BBgenerate(sq));
+    int sq_rank = rankFinder(BBgenerate(sq));
+    BitBoard result = BB_NoSquares;
+    int test_file;
+    int test_rank;
+    for (int i = 0; i < NUM_SQUARES_BOARD; i++)
+    {
+        test_file = fileFinder(BBgenerate((Square)i));
+        test_rank = rankFinder(BBgenerate((Square)i));
+        if ((test_rank - sq_rank == test_file - sq_file))
+        {
+            result |= BBgenerate((Square)i);
+        }
+    }
+    return result;
+}
 
-    return (63 - lz);
+BitBoard AntiDiagonal(Square sq)
+{
+    int sq_file = fileFinder(BBgenerate(sq));
+    int sq_rank = rankFinder(BBgenerate(sq));
+    BitBoard result = BB_NoSquares;
+    int test_file;
+    int test_rank;
+    for (int i = 0; i < NUM_SQUARES_BOARD; i++)
+    {
+        test_file = fileFinder(BBgenerate((Square)i));
+        test_rank = rankFinder(BBgenerate((Square)i));
+
+        if ((test_rank - sq_rank == sq_file - test_file))
+        {
+            result |= BBgenerate((Square)i);
+        }
+    }
+    return result;
+}
+
+int rankFinder(BitBoard b)
+{
+    int n = 0;
+    while (((b >> (8 * n)) & BB_Rank1) == 0)
+        n++;
+    return n;
+}
+
+int fileFinder(BitBoard b)
+{
+    int n = 0;
+    while (((b >> n) & BB_FileA) == 0)
+        n++;
+    return n;
 }

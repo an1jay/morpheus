@@ -3,28 +3,12 @@
 
 #pragma once
 
-class Magics
-{
-  public:
-    Magics();
-    BitBoard AttackFor(Square sq, BitBoard occupancy, PieceType PT) const;
+int rankFinder(BitBoard b);
+int fileFinder(BitBoard b);
 
-  private:
-    void initBishops();
-    void initRooks();
-    const int shift = 9;
+BitBoard ManualBishopAttacks(Square bishop, BitBoard occupancy);
 
-    BitBoard BishopMagics[64];
-    BitBoard RookMagics[64];
-
-    BitBoard *BishopMagicAttacks;
-    BitBoard *RookMagicAttacks;
-};
-
-BitBoard genRand();
-BitBoard popLeadingOne(BitBoard b);
-int positionLeadingOne(BitBoard b);
-
-void permuteBishopOccupancy(BitBoard b);
-void appendBishOcc(BitBoard b, BitBoard *arr, int count);
-void NewAppendBishOcc(BitBoard b, BitBoard *arr, int *count);
+BitBoard Diagonal(Square sq);
+BitBoard AntiDiagonal(Square sq);
+BitBoard Rank(Square sq);
+BitBoard File(Square sq);
