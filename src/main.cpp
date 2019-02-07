@@ -1,4 +1,5 @@
 #include "bitboard.h"
+#include "magics.h"
 #include "movegen.h"
 #include "position.h"
 #include "primitives.h"
@@ -6,13 +7,12 @@
 
 int main()
 {
-    BitBoard b = 0xFF00FF0009FFULL;
+    BitBoard b = 0xFF00FF000900ULL;
+
     BBboardPrint(b);
-    BBboardPrint(ManualBishopAttacks(Square::D4, b));
-    BBboardPrint(ManualRookAttacks(Square::D4, b));
-    // permuteBishopOccupancy(b);
-    // BitBoard b = Diagonal(Square::E5);
-    // BBboardPrint(b);
-    // b = AntiDiagonal(Square::D4);
-    // BBboardPrint(b);
+    std::cout << "Manual Bishop Attacks" << std::endl;
+    BBboardPrint(ManualBishopAttacks(Square::B2, b));
+
+    Magics m = Magics();
+    BBboardPrint(m.AttackFor(Square::B2, b, PieceType::BISHOP));
 }
