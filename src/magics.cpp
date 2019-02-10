@@ -44,36 +44,32 @@ void Magics::initBishops()
     BitBoard occs[512];
     bool valid = false;
 
-    srand(42);
+    srand(time(NULL));
     for (int sq = 0; sq < NUM_SQUARES_BOARD; ++sq) //TODO
     {
 
         valid = false;
-
-        // do
-        // {
-
         // make occupancy BB
         blankMoves = BlankBishopMoves[sq];
         blankMoves &= ~BB_Edges;
-
         // fill occs with all possible distinct relevant occupancies
         permuteBishopOccupancy(blankMoves, occs);
-        std::cout << "Square " << sq << std::endl;
-
+        std::cout << "Finding Magic for Square " << sq << std::endl;
         do
         {
-        start:
             // make bishop attacks zero
             for (int i = 0; i < BishopMax; ++i)
                 BishopMagicAttacks[sq][i] = BB_AllSquares;
-
             // find a magic number
-            do
-            {
-                candidateMagic = genRand();
-                shifted = blankMoves * candidateMagic >> (64 - shift);
-            } while (BBcount(shifted) < 6);
+            // do
+            // {
+            //     candidateMagic = random_BitBoard_fewbits();
+            //     shifted = blankMoves * candidateMagic >> (64 - shift);
+            // } while (BBcount(shifted) < 6);
+
+            candidateMagic = random_BitBoard_fewbits();
+            if (sq == 18)
+                candidateMagic = 0x0001000202020200ULL;
 
             // for each thing in occs hash it and add attacks to the bishopmagicattacks, checking for conflicts
             for (int o = 0; o < BishopMax; ++o)
@@ -82,33 +78,22 @@ void Magics::initBishops()
                 index = (occs[o] * candidateMagic) >> (64 - shift);
                 if (BishopMagicAttacks[sq][index] == BB_AllSquares || BishopMagicAttacks[sq][index] == av)
                 {
-
-                    if (BishopMagicAttacks[sq][index] == BB_AllSquares)
-                    {
-                        BishopMagicAttacks[sq][index] = av;
-                        if (sq == (int)Square::B2)
-                        {
-                            // std::cout << "magic : " << candidateMagic << "  appending av: " << std::endl;
-                            // BBboardPrint(av);
-                        }
-                    }
+                    BishopMagicAttacks[sq][index] = av;
                 }
                 else
                 {
                     // std::cout << "else sq: " << sq << std::endl;
-                    goto start;
+                    valid = false;
+                    break;
                 }
+                valid = true;
             }
-            valid = true;
-            BishopMagics[sq] = candidateMagic;
+            if (valid)
+            {
+                BishopMagics[sq] = candidateMagic;
+                std::cout << "Square " << sq << "  Magic " << candidateMagic << std::endl;
+            }
         } while (!valid);
-        // std::cout << "Square " << sq << "  Magic " << candidateMagic << std::endl;
-        // for (int x = 0; x < BishopMax; ++x)
-        // {
-        //     std::cout << BishopMagicAttacks[sq][x] << ",";
-        // }
-        // } while (!valid);
-
         // test validity of the magic we just found magic number
         // 1. A mask of legal moves (on a blank board) for the square
         // 2. Generate occupancies on that mask
@@ -128,11 +113,34 @@ void Magics::initRooks()
 
 BitBoard genRand()
 {
-    // return (BitBoard)(rand() % (1 << 16)) << 48;
-    return ((BitBoard)(rand() % (1 << 16)) |
-            ((BitBoard)(rand() % (1 << 16)) << 16) |
-            ((BitBoard)(rand() % (1 << 16)) << 32) |
-            ((BitBoard)(rand() % (1 << 16)) << 48));
+    // return (BitBoard)(rand() & 0xFFFFULL) << 48;
+    return (((BitBoard)rand() & 0xFFFFULL) |
+            (((BitBoard)rand() & 0xFFFFULL) << 16) |
+            (((BitBoard)rand() & 0xFFFFULL) << 32) |
+            (((BitBoard)rand() & 0xFFFFULL) << 48)) &
+           (((BitBoard)rand() & 0xFFFFULL) |
+            (((BitBoard)rand() & 0xFFFFULL) << 16) |
+            (((BitBoard)rand() & 0xFFFFULL) << 32) |
+            (((BitBoard)rand() & 0xFFFFULL) << 48)) &
+           (((BitBoard)rand() & 0xFFFFULL) |
+            (((BitBoard)rand() & 0xFFFFULL) << 16) |
+            (((BitBoard)rand() & 0xFFFFULL) << 32) |
+            (((BitBoard)rand() & 0xFFFFULL) << 48));
+}
+
+BitBoard random_BitBoard()
+{
+    BitBoard u1, u2, u3, u4;
+    u1 = (BitBoard)(rand()) & 0xFFFF;
+    u2 = (BitBoard)(rand()) & 0xFFFF;
+    u3 = (BitBoard)(rand()) & 0xFFFF;
+    u4 = (BitBoard)(rand()) & 0xFFFF;
+    return u1 | (u2 << 16) | (u3 << 32) | (u4 << 48);
+}
+
+BitBoard random_BitBoard_fewbits()
+{
+    return random_BitBoard() & random_BitBoard() & random_BitBoard();
 }
 
 void permuteBishopOccupancy(BitBoard moveMask, BitBoard *occs)

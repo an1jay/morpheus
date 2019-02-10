@@ -27,3 +27,6 @@ BitBoard genRand();
 // BitBoard popLeadingOne(BitBoard b);
 // int positionLeadingOne(BitBoard b);
 void permuteBishopOccupancy(BitBoard moveMask, BitBoard *occs);
+
+BitBoard random_BitBoard();
+BitBoard random_BitBoard_fewbits();
