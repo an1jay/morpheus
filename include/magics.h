@@ -12,7 +12,6 @@ class Magics
   private:
     void initBishops();
     void initRooks();
-    const int shift = 9;
     const static int BishopMax = 512;
     const static int RookMax = 4096;
 

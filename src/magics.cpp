@@ -65,13 +65,13 @@ void Magics::initBishops()
             {
                 candidateMagic = genRand();
                 shifted = blankMoves * candidateMagic >> (64 - BishopShifts[sq]);
-            } while (BBcount(shifted) < 6);
-
+            } while (BBcount(shifted) < BishopShifts[sq]);
+            // candidateMagic = genRand();
             // for each thing in occs hash it and add attacks to the bishopmagicattacks, checking for conflicts
             for (int o = 0; o < BishopMax; ++o)
             {
                 av = ManualBishopAttacks((Square)sq, occs[o]);
-                index = (occs[o] * candidateMagic) >> (64 - shift);
+                index = (occs[o] * candidateMagic) >> (64 - BishopShifts[sq]);
                 if (BishopMagicAttacks[sq][index] == BB_AllSquares || BishopMagicAttacks[sq][index] == av)
                 {
                     BishopMagicAttacks[sq][index] = av;
@@ -87,8 +87,9 @@ void Magics::initBishops()
             if (valid)
             {
                 BishopMagics[sq] = candidateMagic;
-                std::cout << "Square " << sq << "  Magic " << candidateMagic << std::endl;
+                // std::cout << "Square " << sq << "  Magic " << candidateMagic << std::endl;
             }
+            std::cout << "Square " << sq << "  Magic " << candidateMagic << std::endl;
         } while (!valid);
         // test validity of the magic we just found magic number
         // 1. A mask of legal moves (on a blank board) for the square
