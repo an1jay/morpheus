@@ -28,14 +28,17 @@ BitBoard genRand();
 // int positionLeadingOne(BitBoard b);
 void permuteBishopOccupancy(BitBoard moveMask, BitBoard *occs);
 
-constexpr int BishopShifts[64]
-{
+constexpr int BishopShifts[64]{
+    // clang-format off
     6, 5, 5, 5, 5, 5, 5, 6,
-        5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 7, 7, 7, 7, 5, 5,
-        5, 5, 7, 9, 9, 7, 5, 5,
-        5, 5, 7, 9, 9, 7, 5, 5,
-        5, 5, 7, 7, 7, 7, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5,
-        6, 5, 5, 5, 5, 5, 5, 6
-}
+    5, 5, 5, 5, 5, 5, 5, 5,
+    5, 5, 7, 7, 7, 7, 5, 5,
+    5, 5, 7, 9, 9, 7, 5, 5,
+    5, 5, 7, 9, 9, 7, 5, 5,
+    5, 5, 7, 7, 7, 7, 5, 5,
+    5, 5, 5, 5, 5, 5, 5, 5,
+    6, 5, 5, 5, 5, 5, 5, 6,
+    //clang-format on
+    };
+BitBoard random_BitBoard();
+BitBoard random_BitBoard_fewbits();
