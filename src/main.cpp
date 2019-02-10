@@ -7,22 +7,25 @@
 
 int main()
 {
-    BitBoard b = BlankBishopMoves[0];
-    BitBoard middle_b = b & BB_NoEdges;
-    BitBoard *permutations = permuteBishopOccupancy(middle_b);
+    BitBoard b = 0xFF0000388ULL;
+    // BitBoard middle_b = b & BB_NoEdges;
+    // BitBoard occs[512] = {0ULL};
+    // permuteBishopOccupancy(middle_b, occs);
 
-    // BBboardPrint(b);
-    // std::cout << "Manual Bishop Attacks" << std::endl;
-    // BBboardPrint(ManualBishopAttacks(Square::B2, b));
+    // std::cout << "number of ones in main" << BBcount(middle_b) << std::endl;
+    // BBbinaryPrint(middle_b);
 
-    // Magics m = Magics();
-    // BBboardPrint(m.AttackFor(Square::B2, b, PieceType::BISHOP));
-    for (int i = 0; i < 70; i++)
-    {
-        std::cout << i << "  ";
-        BBbinaryPrint(permutations[i]);
-    }
+    BBboardPrint(b);
+    std::cout << "Manual Bishop Attacks" << std::endl;
+    BBboardPrint(ManualBishopAttacks(Square::C1, b));
 
-    free(permutations);
+    Magics m = Magics();
+    BBboardPrint(m.AttackFor(Square::C1, b, PieceType::BISHOP));
+    // for (int i = 0; i < 70; i++)
+    // {
+    //     std::cout << i << "  ";
+    //     BBbinaryPrint(occs[i]);
+    // }
+
     return 0;
 }

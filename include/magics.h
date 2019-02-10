@@ -26,4 +26,4 @@ class Magics
 BitBoard genRand();
 // BitBoard popLeadingOne(BitBoard b);
 // int positionLeadingOne(BitBoard b);
-BitBoard *permuteBishopOccupancy(BitBoard moveMask);
+void permuteBishopOccupancy(BitBoard moveMask, BitBoard *occs);

@@ -65,12 +65,12 @@ BitBoard BBgenerate(const Square sq)
 
 bool BBoccupied(const BitBoard b, const Square sq)
 {
-    return __builtin_popcount(b & BBgenerate(sq));
+    return __builtin_popcountll(b & BBgenerate(sq));
 }
 
 int BBcount(const BitBoard b)
 {
-    return __builtin_popcount(b);
+    return __builtin_popcountll(b);
 }
 
 BitBoard BBreverse(const BitBoard b)
