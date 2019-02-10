@@ -22,10 +22,10 @@ BitBoard Magics::AttackFor(Square sq, BitBoard occupancy, PieceType PT) const
     {
     case PieceType::BISHOP:
 
-        return BishopMagicAttacks[(int)sq][((occupancy & BlankBishopMoves[(int)sq] & ~BB_Edges) * BishopMagics[(int)sq]) >> (64 - shift)];
+        return BishopMagicAttacks[(int)sq][((occupancy & BlankBishopMoves[(int)sq] & ~BB_Edges) * BishopMagics[(int)sq]) >> (64 - BishopShifts[(int)sq])];
         break;
     case PieceType::ROOK:
-        return RookMagicAttacks[(int)sq][((occupancy & BlankRookMoves[(int)sq] & ~BB_Edges) * RookMagics[(int)sq]) >> (64 - shift)];
+        return RookMagicAttacks[(int)sq][((occupancy & BlankRookMoves[(int)sq] & ~BB_Edges) * RookMagics[(int)sq]) >> (64 - BishopShifts[(int)sq])];
         break;
 
     default:
@@ -72,7 +72,7 @@ void Magics::initBishops()
             do
             {
                 candidateMagic = genRand();
-                shifted = blankMoves * candidateMagic >> (64 - shift);
+                shifted = blankMoves * candidateMagic >> (64 - BishopShifts[sq]);
             } while (BBcount(shifted) < 6);
 
             // for each thing in occs hash it and add attacks to the bishopmagicattacks, checking for conflicts

@@ -27,3 +27,15 @@ BitBoard genRand();
 // BitBoard popLeadingOne(BitBoard b);
 // int positionLeadingOne(BitBoard b);
 void permuteBishopOccupancy(BitBoard moveMask, BitBoard *occs);
+
+constexpr int BishopShifts[64]
+{
+    6, 5, 5, 5, 5, 5, 5, 6,
+        5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 7, 7, 7, 7, 5, 5,
+        5, 5, 7, 9, 9, 7, 5, 5,
+        5, 5, 7, 9, 9, 7, 5, 5,
+        5, 5, 7, 7, 7, 7, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5,
+        6, 5, 5, 5, 5, 5, 5, 6
+}
