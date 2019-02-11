@@ -9,100 +9,133 @@
 
 Magics::Magics()
 {
-    std::cout << "Constructing" << std::endl;
+    BishopMagicAttacks = new BitBoard[NUM_SQUARES_BOARD][BishopMax];
+    RookMagicAttacks = new BitBoard[NUM_SQUARES_BOARD][RookMax];
+    for (int sq = 0; sq < NUM_SQUARES_BOARD; ++sq)
+    {
+        // set bishop magics to full board
+        for (int b = 0; b < BishopMax; b++)
+        {
+            BishopMagicAttacks[sq][b] = BB_AllSquares;
+        }
+        // set rook magics to full board
+        for (int r = 0; r < RookMax; r++)
+        {
+            RookMagicAttacks[sq][r] = BB_AllSquares;
+        }
+    }
+    std::cout << "Finding magic numbers" << std::endl;
+
     initBishops();
     initRooks();
+}
+
+Magics::~Magics()
+{
+    delete[] BishopMagicAttacks;
+    delete[] RookMagicAttacks;
 }
 
 BitBoard Magics::AttackFor(Square sq, BitBoard occupancy, PieceType PT) const
 {
 
-    // BitBoard sqBB = BBgenerate(sq);
+    BitBoard index;
+    BitBoard relevantOccupancy;
     switch (PT)
     {
     case PieceType::BISHOP:
+        relevantOccupancy = occupancy & BlankBishopMoves[(int)sq] & BB_NoEdges;
+        index = (relevantOccupancy * BishopMagics[(int)sq]) >> (64 - BishopShifts[(int)sq]);
+        return BishopMagicAttacks[(int)sq][index]; // maybe or it with edges
 
-        return BishopMagicAttacks[(int)sq][((occupancy & BlankBishopMoves[(int)sq] & ~BB_Edges) * BishopMagics[(int)sq]) >> (64 - BishopShifts[(int)sq])];
-        break;
     case PieceType::ROOK:
-        return RookMagicAttacks[(int)sq][((occupancy & BlankRookMoves[(int)sq] & ~BB_Edges) * RookMagics[(int)sq]) >> (64 - BishopShifts[(int)sq])];
-        break;
+        relevantOccupancy = occupancy & BlankRookMoves[(int)sq] & BB_NoEdges;
+        index = (relevantOccupancy * RookMagics[(int)sq]) >> (64 - RookShifts[(int)sq]);
+        return RookMagicAttacks[(int)sq][index]; // maybe or it with edges
 
     default:
         return BB_AllSquares;
-        break;
     }
 }
 
 void Magics::initBishops()
 {
-    BitBoard blankMoves;
+    // 1. For each square find a candidate magic
+    // 2. For each possible occupancy, store attack vector in correct index, checking there is no collision
+    // 3. If no collisions, we have valid magic
+    srand(420);
     BitBoard candidateMagic;
-    BitBoard shifted;
-    BitBoard av;
-    int index;
-    BitBoard occs[512];
-    bool valid = false;
-
-    srand(time(NULL));
-    for (int sq = 0; sq < NUM_SQUARES_BOARD; ++sq) //TODO
+    BitBoard blankMiddleMoves;
+    BitBoard occupancy;
+    BitBoard moves;
+    BitBoard index;
+    bool validMagic;
+    int numTried;
+    for (int sq = 0; sq < NUM_SQUARES_BOARD; ++sq)
     {
+        std::cout << "Finding Bishop Magic for Square " << sq << " ---- ";
+        numTried = 0;
 
-        valid = false;
-        // make occupancy BB
-        blankMoves = BlankBishopMoves[sq];
-        blankMoves &= ~BB_Edges;
-        // fill occs with all possible distinct relevant occupancies
-        permuteBishopOccupancy(blankMoves, occs);
-        std::cout << "Finding Magic for Square " << sq << std::endl;
+        // only care about middle 6x6 occupancies
+        blankMiddleMoves = BlankBishopMoves[sq] & BB_NoEdges;
+        // assume valid until proven otherwise
+        validMagic = true;
+
+        // inside this loop, occupancy is equal to every possible relevant occupancy
         do
         {
-            // make bishop attacks zero
-            for (int i = 0; i < BishopMax; ++i)
-                BishopMagicAttacks[sq][i] = BB_AllSquares;
-            // find a magic number
+            // part of Carry Rippler (see https://www.chessprogramming.org/Traversing_Subsets_of_a_Set)
+            occupancy = 0ULL;
+            // std::cout << "Inside first loop" << std::endl;
+
+            validMagic = true;                                  // assume valid till proven otherwise
+            candidateMagic = genRand() & genRand() & genRand(); // find a random magic (see https://www.chessprogramming.org/Looking_for_Magics)
+            ++numTried;
+            // BBbinaryPrint(candidateMagic);
+            // set bishop magics to full board
+            for (int b = 0; b < BishopMax; b++)
+            {
+                BishopMagicAttacks[sq][b] = BB_AllSquares;
+            }
+
             do
             {
-                candidateMagic = genRand();
-                shifted = blankMoves * candidateMagic >> (64 - BishopShifts[sq]);
-            } while (BBcount(shifted) < BishopShifts[sq]);
-            // candidateMagic = genRand();
-            // for each thing in occs hash it and add attacks to the bishopmagicattacks, checking for conflicts
-            for (int o = 0; o < BishopMax; ++o)
-            {
-                av = ManualBishopAttacks((Square)sq, occs[o]);
-                index = (occs[o] * candidateMagic) >> (64 - BishopShifts[sq]);
-                if (BishopMagicAttacks[sq][index] == BB_AllSquares || BishopMagicAttacks[sq][index] == av)
+                // std::cout << "Inside second loop" << std::endl;
+
+                // BBbinaryPrint(occupancy);
+                moves = ManualBishopAttacks((Square)sq, occupancy);
+                index = (occupancy * candidateMagic) >> (64 - BishopShifts[sq]);
+                // if (occupancy == b)
+                // {
+                //     std::cout << "we get occ" << std::endl;
+                // }
+                if (BishopMagicAttacks[sq][index] == moves || BishopMagicAttacks[sq][index] == BB_AllSquares)
                 {
-                    BishopMagicAttacks[sq][index] = av;
+                    BishopMagicAttacks[sq][index] = moves;
+                    // std::cout << "Valid magic" << std::endl;
+                    // std::cout << "occupancy: " << std::endl;
+                    // BBboardPrint(occupancy);
                 }
                 else
                 {
-                    // std::cout << "else sq: " << sq << std::endl;
-                    valid = false;
+                    validMagic = false;
+                    // std::cout << "Invalid magic" << std::endl;
+
                     break;
                 }
-                valid = true;
-            }
-            if (valid)
-            {
-                BishopMagics[sq] = candidateMagic;
-                // std::cout << "Square " << sq << "  Magic " << candidateMagic << std::endl;
-            }
-            std::cout << "Square " << sq << "  Magic " << candidateMagic << std::endl;
-        } while (!valid);
-        // test validity of the magic we just found magic number
-        // 1. A mask of legal moves (on a blank board) for the square
-        // 2. Generate occupancies on that mask
-        // 3. Calculate attacks from that square given the occupancy
-        // 4. Hash the occupancies
-        // 5.
-        // Need to check that each occupancy after hashing points to the correct move vector for the position
-        // EXTRA: Occupancies that result in the same move vector point to the same index of the movevector array
 
-        // put in array if valid
+                // Carry Rippler trick to traverse all possible occupancies (see https://www.chessprogramming.org/Traversing_Subsets_of_a_Set)
+                occupancy = (occupancy - blankMiddleMoves) & blankMiddleMoves;
+            } while (occupancy);
+        } while (!validMagic);
+
+        // add candidateMagic if it is not an invalid magic
+        BishopMagics[sq] = candidateMagic;
+        std::cout << numTried << " tries " << std::endl;
+        numTried = 0;
     }
 }
+
 void Magics::initRooks()
 {
     std::cout << "Not Implemented" << std::endl;
@@ -110,62 +143,38 @@ void Magics::initRooks()
 
 BitBoard genRand()
 {
-    // return (BitBoard)(rand() & 0xFFFFULL) << 48;
     return (((BitBoard)rand() & 0xFFFFULL) |
-            (((BitBoard)rand() & 0xFFFFULL) << 16) |
-            (((BitBoard)rand() & 0xFFFFULL) << 32) |
-            (((BitBoard)rand() & 0xFFFFULL) << 48)) &
-           (((BitBoard)rand() & 0xFFFFULL) |
-            (((BitBoard)rand() & 0xFFFFULL) << 16) |
-            (((BitBoard)rand() & 0xFFFFULL) << 32) |
-            (((BitBoard)rand() & 0xFFFFULL) << 48)) &
-           (((BitBoard)rand() & 0xFFFFULL) |
             (((BitBoard)rand() & 0xFFFFULL) << 16) |
             (((BitBoard)rand() & 0xFFFFULL) << 32) |
             (((BitBoard)rand() & 0xFFFFULL) << 48));
 }
 
-BitBoard random_BitBoard()
-{
-    BitBoard u1, u2, u3, u4;
-    u1 = (BitBoard)(rand()) & 0xFFFF;
-    u2 = (BitBoard)(rand()) & 0xFFFF;
-    u3 = (BitBoard)(rand()) & 0xFFFF;
-    u4 = (BitBoard)(rand()) & 0xFFFF;
-    return u1 | (u2 << 16) | (u3 << 32) | (u4 << 48);
-}
+// void permuteBishopOccupancy(BitBoard moveMask, BitBoard *occs)
+// {
+//     BitBoard interim;
+//     int numOnes = BBcount(moveMask);
+//     int onesLocation[numOnes];
+//     int onesCounter = 0;
 
-BitBoard random_BitBoard_fewbits()
-{
-    return random_BitBoard() & random_BitBoard() & random_BitBoard();
-}
+//     for (int i = 0; i < NUM_SQUARES_BOARD; i++)
+//     {
+//         if (BBgenerate((Square)i) & moveMask)
+//         {
+//             onesLocation[onesCounter] = i;
+//             onesCounter++;
+//         }
+//     }
 
-void permuteBishopOccupancy(BitBoard moveMask, BitBoard *occs)
-{
-    BitBoard interim;
-    int numOnes = BBcount(moveMask);
-    int onesLocation[numOnes];
-    int onesCounter = 0;
-
-    for (int i = 0; i < NUM_SQUARES_BOARD; i++)
-    {
-        if (BBgenerate((Square)i) & moveMask)
-        {
-            onesLocation[onesCounter] = i;
-            onesCounter++;
-        }
-    }
-
-    for (BitBoard n = 0; n < BBgenerate((Square)numOnes); n++)
-    {
-        interim = 0ULL;
-        for (int x = 0; x <= numOnes; x++)
-        {
-            if (BBgenerate((Square)x) & n)
-            {
-                interim |= BBgenerate((Square)onesLocation[x]);
-            }
-        }
-        occs[n] = interim;
-    }
-}
+//     for (BitBoard n = 0; n < BBgenerate((Square)numOnes); n++)
+//     {
+//         interim = 0ULL;
+//         for (int x = 0; x <= numOnes; x++)
+//         {
+//             if (BBgenerate((Square)x) & n)
+//             {
+//                 interim |= BBgenerate((Square)onesLocation[x]);
+//             }
+//         }
+//         occs[n] = interim;
+//     }
+// }

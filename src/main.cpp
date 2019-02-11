@@ -7,24 +7,26 @@
 
 int main()
 {
-    BitBoard b = 0xFF0000388ULL;
-    // BitBoard middle_b = b & BB_NoEdges;
-    BitBoard occs[512] = {0ULL};
-    // permuteBishopOccupancy(middle_b, occs);
-
-    // std::cout << "number of ones in main" << BBcount(middle_b) << std::endl;
-    // BBbinaryPrint(middle_b);
-
-    BBboardPrint(b);
-    std::cout << "Manual Bishop Attacks" << std::endl;
-    BBboardPrint(ManualBishopAttacks(Square::C1, b));
-
+    BitBoard b = 0x11235F0089F;
+    Square sq = Square::H8;
     Magics m = Magics();
-    BBboardPrint(m.AttackFor(Square::C1, b, PieceType::BISHOP));
-    for (int i = 0; i < 70; i++)
+    bool valid;
+    for (int i = 0; i < 10; ++i)
     {
-        std::cout << i << "  ";
-        BBbinaryPrint(occs[i]);
+        valid = true;
+        b = genRand();
+        std::cout << "*******************************************" << std::endl;
+        std::cout << "Occupancy" << std::endl;
+        BBboardPrint(b);
+
+        for (int sa = 0; sa < NUM_SQUARES_BOARD; ++sa)
+        {
+            sq = (Square)sa;
+
+            valid = valid && ManualBishopAttacks(sq, b) == m.AttackFor(sq, b, PieceType::BISHOP);
+        }
+        std::cout << "Validity? " << valid << std::endl;
+        std::cout << "*******************************************" << std::endl;
     }
 
     return 0;

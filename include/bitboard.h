@@ -2,7 +2,7 @@
 
 #pragma once
 
-typedef uint64_t BitBoard;
+typedef uint_fast64_t BitBoard;
 
 void BBbinaryPrint(BitBoard b); // Prints the bitboard as a binary number
 void BBprettyPrint(BitBoard b); // Prints the bitboard as a binary number in a slightly more readable way
