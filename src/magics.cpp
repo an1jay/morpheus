@@ -23,7 +23,10 @@ Magics::Magics(bool useExisting)
             RookMagicAttacks[sq][r] = BB_AllSquares;
         }
     }
-    std::cout << "Finding magic numbers" << std::endl;
+    if (!useExisting)
+        std::cout << "Magics: Finding new magic numbers" << std::endl;
+    else
+        std::cout << "Magics: Using existing magic numbers" << std::endl;
 
     initBishops(useExisting);
     initRooks(useExisting);
@@ -110,7 +113,8 @@ void Magics::initBishops(bool useExisting)
     int totalTried = 0;
     for (int sq = 0; sq < NUM_SQUARES_BOARD; ++sq)
     {
-        std::cout << "Finding Bishop Magic for Square " << sq << " ---- ";
+        if (!useExisting)
+            std::cout << "Magics: Finding Bishop Magic for Square " << sq << " ---- ";
         triedCount = 0;
 
         // only care about middle 6x6 occupancies
@@ -158,11 +162,13 @@ void Magics::initBishops(bool useExisting)
 
         // add candidateMagic if it is not an invalid magic
         BishopMagics[sq] = candidateMagic;
-        std::cout << triedCount << " tries " << std::endl;
+        if (!useExisting)
+            std::cout << triedCount << " tries " << std::endl;
         totalTried += triedCount;
         triedCount = 0;
     }
-    std::cout << "Total bishop tries " << totalTried << std::endl;
+    if (!useExisting)
+        std::cout << "Magics: Total bishop tries " << totalTried << std::endl;
 }
 
 void Magics::initRooks(bool useExisting)
@@ -181,7 +187,8 @@ void Magics::initRooks(bool useExisting)
     int totalTried = 0;
     for (int sq = 0; sq < NUM_SQUARES_BOARD; ++sq)
     {
-        std::cout << "Finding Rook Magic for Square " << sq << " ---- ";
+        if (!useExisting)
+            std::cout << "Magics: Finding Rook Magic for Square " << sq << " ---- ";
         triedCount = 0;
 
         // added complication for rooks - need to check whether on corner or edge and then need to look up
@@ -236,11 +243,13 @@ void Magics::initRooks(bool useExisting)
 
         // add candidateMagic if it is not an invalid magic
         RookMagics[sq] = candidateMagic;
-        std::cout << triedCount << " tries " << std::endl;
+        if (!useExisting)
+            std::cout << triedCount << " tries " << std::endl;
         totalTried += triedCount;
         triedCount = 0;
     }
-    std::cout << "Total rook tries " << totalTried << std::endl;
+    if (!useExisting)
+        std::cout << "Magics: Total rook tries " << totalTried << std::endl;
 }
 
 BitBoard genRand()

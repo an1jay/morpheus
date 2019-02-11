@@ -25,9 +25,6 @@ class Magics
 };
 
 BitBoard genRand();
-// BitBoard popLeadingOne(BitBoard b);
-// int positionLeadingOne(BitBoard b);
-// void permuteBishopOccupancy(BitBoard moveMask, BitBoard *occs);
 
 constexpr int BishopShifts[64]{
     // clang-format off

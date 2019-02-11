@@ -27,7 +27,7 @@ int main()
     // }
     BitBoard b = 0x11235F0089F;
     Square sq = Square::H8;
-    Magics m = Magics(false);
+    Magics m = Magics(true);
 
     std::cout << "Occupancy" << std::endl;
     BBboardPrint(b);
