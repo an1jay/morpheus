@@ -1,6 +1,8 @@
 #include "bitboard.h"
+#include "magics.h"
 #include "mailbox.h"
 #include "primitives.h"
+#include <vector>
 
 #pragma once
 
@@ -15,8 +17,10 @@ class Position
     BitBoard Kings;
     BitBoard WhitePieces;
     BitBoard BlackPieces;
+    BitBoard Occupancy; // TODO to be checked if faster
 
     MailBox PieceList;
+    Color ColorToMove;
 
     Piece pieceAtSquare(Square sq);           // Returns the piece at a square
     BitBoard BBForPiece(const Piece p) const; // Returns a bitboard for a piece
@@ -36,4 +40,6 @@ class Position
     ~Position();
 
     void Display() const;
+
+    std::vector<Move> *GenerateLegalMoves(Magics &m) const;
 };

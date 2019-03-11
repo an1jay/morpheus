@@ -1,7 +1,10 @@
 #include "position.h"
 #include "bitboard.h"
 #include "constants.h"
+#include "magics.h"
+
 #include <iostream>
+#include <vector>
 
 Position::~Position() {}
 
@@ -23,6 +26,7 @@ Position::Position()
     UpdateBitBoards();
 }
 
+// Updates BitBoards to match piece list
 void Position::UpdateBitBoards()
 {
     Piece p;
@@ -85,6 +89,7 @@ void Position::UpdateBitBoards()
     }
 }
 
+//Returns Bitboard for any piece
 BitBoard Position::BBForPiece(const Piece p) const
 {
     switch (p)
@@ -120,6 +125,7 @@ BitBoard Position::BBForPiece(const Piece p) const
     }
 }
 
+// Displays the board
 void Position::Display() const
 {
     for (int r = NUM_RANKS - 1; r >= 0; --r)
@@ -139,7 +145,65 @@ void Position::Display() const
               << std::endl;
 }
 
+// Returns piece at square
 Piece Position::pieceAtSquare(Square sq)
 {
     return PieceList.Occupation(sq);
+}
+
+std::vector<Move> *Position::GenerateLegalMoves(Magics &m) const
+{
+    std::vector<Move> legal_moves;
+    Piece piece;
+    BitBoard moves;
+    Occupancy = BlackPieces ^ WhitePieces;
+    for (int sq = 0; sq < NUM_SQUARES_BOARD; sq++)
+    {
+        piece = PieceList.Occupation((Square)sq);
+        if (PieceColor(piece) == ColorToMove)
+        {
+            switch (piece)
+            {
+            case Piece::W_PAWN:
+                /* code */
+                break;
+
+            case Piece::B_PAWN:
+                /* code */
+                break;
+
+            case Piece::B_KNIGHT:
+            case Piece::W_KNIGHT:
+                moves = BlankKnightMoves[sq];
+                break;
+
+            case Piece::B_KING:
+            case Piece::W_KING:
+                moves = BlankKingMoves[sq];
+                break;
+
+            case Piece::B_BISHOP:
+            case Piece::W_BISHOP:
+                moves = m.AttackFor((Square)sq, Occupancy, PieceType::BISHOP);
+                break;
+
+            case Piece::B_ROOK:
+            case Piece::W_ROOK:
+                moves = m.AttackFor((Square)sq, Occupancy, PieceType::ROOK);
+                break;
+
+            case Piece::B_QUEEN:
+            case Piece::W_QUEEN:
+                moves = m.AttackFor((Square)sq, Occupancy, PieceType::BISHOP) ^
+                        m.AttackFor((Square)sq, Occupancy, PieceType::ROOK);
+                break;
+            default:
+                break;
+            }
+
+            while (moves)
+            {
+            }
+        }
+    }
 }

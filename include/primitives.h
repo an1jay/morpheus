@@ -42,7 +42,7 @@ enum class Piece : int_fast8_t
     // clang-format off
     W_PAWN = 1, W_KNIGHT, W_BISHOP, W_ROOK, W_QUEEN, W_KING,
     B_PAWN = 9, B_KNIGHT, B_BISHOP, B_ROOK, B_QUEEN, B_KING,
-    PIECE_NONE = 16,
+    PIECE_NONE = 15,
     // clang-format on
 };
 
@@ -58,7 +58,7 @@ enum class PieceType : int_fast8_t
 enum class Color : int_fast8_t
 {
     COLOR_WHITE = 1,
-    COLOR_BLACK = -1,
+    COLOR_BLACK = 2,
     COLOR_NONE = 0,
 };
 
@@ -72,3 +72,7 @@ inline Color PieceColor(Piece p)
     }
     return Color::COLOR_BLACK;
 }
+
+//   6 for en passant, 4 for piece that promoting to, 2 for castle, 1 for capture, 4 for piece type, 2 for colour,
+//   6 x 2 for square starting and moving to,
+typedef uint32_t Move;
