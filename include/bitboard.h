@@ -11,8 +11,8 @@ bool BBoccupied(const BitBoard b, const Square sq); // Checks whether the square
 BitBoard BBgenerate(const Square sq);               // Generates a bitboard with the square bit set to one
 int BBcount(const BitBoard b);                      // Returns number of occupancies
 BitBoard BBreverse(const BitBoard b);               // Reverse the bitboard
-
-BitBoard BBFindLSBit(const BitBoard b);
+int BBfindMSB(const BitBoard b);
+BitBoard BBpopMSB(const BitBoard b);
 
 constexpr BitBoard BB_AllSquares = ~0;
 constexpr BitBoard BB_NoSquares = 0;

@@ -15,6 +15,7 @@ class MailBox
     MailBox(MailBox &m);  // Constructs mailbox with contents equal to m
 
     Piece Occupation(Square sq) const;  // Returns the piece on sq
+    bool Occupied(Square sq) const;     // Returns whether a piece is on sq
     void SetSquare(Square sq, Piece p); // Sets the piece on sq to p
     BitBoard Pieces(Piece p) const;     // Debug method - can check sync with bitboards
 };

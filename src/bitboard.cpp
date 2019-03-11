@@ -60,3 +60,12 @@ BitBoard BBreverse(const BitBoard b)
     rev = (rev >> 32) | (rev << 32);
     return rev;
 }
+
+int BBfindMSB(const BitBoard b)
+{
+    return NUM_SQUARES_BOARD - __builtin_clzll(b) - 1; // TODO maybe consider __bultin_ffsll()
+}
+BitBoard BBpopMSB(const BitBoard b)
+{
+    return BBgenerate((Square)(NUM_SQUARES_BOARD - __builtin_clzll(b) - 1));
+}

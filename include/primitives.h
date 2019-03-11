@@ -57,8 +57,8 @@ enum class PieceType : int_fast8_t
 // Defining the various colors
 enum class Color : int_fast8_t
 {
-    COLOR_WHITE = 1,
-    COLOR_BLACK = 2,
+    WHITE = 1,
+    BLACK = 2,
     COLOR_NONE = 0,
 };
 
@@ -66,11 +66,55 @@ inline Color PieceColor(Piece p)
 {
     if (p == Piece::PIECE_NONE)
         return Color::COLOR_NONE;
-    if ((int)p < 8)
+    if ((int)p < 9)
     {
-        return Color::COLOR_WHITE;
+        return Color::WHITE;
     }
-    return Color::COLOR_BLACK;
+    return Color::BLACK;
+}
+
+inline Piece Piece(PieceType pt, Color c)
+{
+    switch (c)
+    {
+    case Color::BLACK:
+        switch (pt)
+        {
+        case PieceType::PAWN:
+            return Piece::B_PAWN;
+        case PieceType::KNIGHT:
+            return Piece::B_KNIGHT;
+        case PieceType::BISHOP:
+            return Piece::B_BISHOP;
+        case PieceType::ROOK:
+            return Piece::B_ROOK;
+        case PieceType::QUEEN:
+            return Piece::B_QUEEN;
+        case PieceType::KING:
+            return Piece::B_KING;
+        }
+        break;
+    case Color::WHITE:
+        switch (pt)
+        {
+        case PieceType::PAWN:
+            return Piece::W_PAWN;
+        case PieceType::KNIGHT:
+            return Piece::W_KNIGHT;
+        case PieceType::BISHOP:
+            return Piece::W_BISHOP;
+        case PieceType::ROOK:
+            return Piece::W_ROOK;
+        case PieceType::QUEEN:
+            return Piece::W_QUEEN;
+        case PieceType::KING:
+            return Piece::W_KING;
+        }
+        break;
+    default:
+        return Piece::PIECE_NONE;
+        break;
+    }
 }
 
 //   6 for en passant, 4 for piece that promoting to, 2 for castle, 1 for capture, 4 for piece type, 2 for colour,

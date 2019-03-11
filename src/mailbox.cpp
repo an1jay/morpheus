@@ -48,3 +48,8 @@ BitBoard MailBox::Pieces(Piece p) const
     }
     return blank;
 }
+
+bool MailBox::Occupied(Square sq) const
+{
+    return !(list[(int)sq] == Piece::PIECE_NONE);
+}
