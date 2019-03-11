@@ -67,5 +67,5 @@ int BBfindMSB(const BitBoard b)
 }
 BitBoard BBpopMSB(const BitBoard b)
 {
-    return BBgenerate((Square)(NUM_SQUARES_BOARD - __builtin_clzll(b) - 1));
+    return b ^ BBgenerate((Square)(NUM_SQUARES_BOARD - __builtin_clzll(b) - 1));
 }

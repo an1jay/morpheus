@@ -10,9 +10,13 @@
 
 int main()
 {
+
+    Magics m = Magics(true);
+    std::cout << "Magics made" << std::endl;
     Position p = Position();
-    std::vector<Move> *move_vector = p.GenerateLegalMoves();
-    for (auto n : move_vector)
+    p.Display();
+    std::vector<Move> *move_vector = p.GenerateLegalMoves(m);
+    for (auto n : *move_vector)
         std::cout << EnglishFromMove(n) << std::endl;
 
     return 0;

@@ -5,7 +5,6 @@
 
 //   6 for en passant, 4 for piece that promoting to, 2 for castle, 1 for capture, 4 for piece type, 2 for colour,
 //   6 x 2 for square starting and moving to,
-typedef uint32_t Move;
 
 char *SANfromMove(Position p, Move m);
 

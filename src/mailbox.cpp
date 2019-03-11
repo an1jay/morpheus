@@ -1,5 +1,6 @@
 #include "mailbox.h"
 #include "bitboard.h"
+#include "constants.h"
 #include "primitives.h"
 
 MailBox::MailBox()

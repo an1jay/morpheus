@@ -1,11 +1,11 @@
+#pragma once
+
 #include "bitboard.h"
 #include "magics.h"
 #include "mailbox.h"
-#include "move.h"
+
 #include "primitives.h"
 #include <vector>
-
-#pragma once
 
 class Position
 {

@@ -1,7 +1,7 @@
+#pragma once
+
 #include "move.h"
 #include "primitives.h"
-
-#pragma once
 
 constexpr int NUM_SQUARES_BOARD = 64;
 constexpr int NUM_FILES = 8;
@@ -21,4 +21,4 @@ constexpr char RankChars[8] = {'1', '2', '3', '4', '5', '6', '7', '8'};
 
 constexpr char FileChars[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
 
-constexpr char CaptureChars[2] = {' ', 'x'};
+constexpr char CaptureChars[2] = {'-', 'x'};

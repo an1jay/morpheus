@@ -1,6 +1,6 @@
-#include "primitives.h"
-
 #pragma once
+
+#include "primitives.h"
 
 typedef uint_fast64_t BitBoard;
 
@@ -14,8 +14,8 @@ BitBoard BBreverse(const BitBoard b);               // Reverse the bitboard
 int BBfindMSB(const BitBoard b);
 BitBoard BBpopMSB(const BitBoard b);
 
-constexpr BitBoard BB_AllSquares = ~0;
-constexpr BitBoard BB_NoSquares = 0;
+constexpr BitBoard BB_NoSquares = 0ULL;
+constexpr BitBoard BB_AllSquares = ~BB_NoSquares;
 
 constexpr BitBoard BB_FileA = 0x0101010101010101ULL;
 constexpr BitBoard BB_FileB = BB_FileA << 1;

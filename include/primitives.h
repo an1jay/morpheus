@@ -1,6 +1,9 @@
+#pragma once
+
 #include <stdint.h>
 
-#pragma once
+// Define Move
+typedef uint32_t Move;
 
 // Defining the various squares on the board
 enum class Square : int_fast8_t
@@ -112,7 +115,7 @@ inline Piece PieceFromTypeColor(PieceType pt, Color c)
         }
         break;
     default:
-        return Piece::PIECE_NONE;
         break;
     }
+    return Piece::PIECE_NONE;
 }
