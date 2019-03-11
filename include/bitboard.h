@@ -35,6 +35,8 @@ constexpr BitBoard BB_Rank6 = BB_Rank1 << (8 * 5);
 constexpr BitBoard BB_Rank7 = BB_Rank1 << (8 * 6);
 constexpr BitBoard BB_Rank8 = BB_Rank1 << (8 * 7);
 
+constexpr BitBoard BB_Ranks[8] = {BB_Rank1, BB_Rank2, BB_Rank3, BB_Rank4, BB_Rank5, BB_Rank6, BB_Rank7, BB_Rank8};
+
 constexpr BitBoard BB_Edges = BB_FileA | BB_FileH | BB_Rank1 | BB_Rank8;
 constexpr BitBoard BB_NoEdges = ~BB_Edges;
 constexpr BitBoard BB_EdgeArray[4] = {BB_FileA, BB_FileH, BB_Rank1, BB_Rank8};

@@ -9,8 +9,6 @@
 char *SANfromMove(Position p, Move m);
 
 char *EnglishFromMove(Move m);
-int rankFromSq(Square sq);
-int fileFromSq(Square sq);
 
 constexpr int ORIGIN_SQ_WIDTH = 6;
 constexpr int TARGET_SQ_WIDTH = 6;

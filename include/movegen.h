@@ -14,4 +14,7 @@ BitBoard AntiDiagonal(Square sq);
 BitBoard Rank(Square sq);
 BitBoard File(Square sq);
 
-BitBoard pawnAttacks(Square sq, BitBoard occ)
+int rankFromSq(Square sq);
+int fileFromSq(Square sq);
+
+BitBoard pawnAttacks(Square sq, BitBoard occ, Color c);

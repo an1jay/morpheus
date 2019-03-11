@@ -3,6 +3,7 @@
 #include "constants.h"
 #include "magics.h"
 #include "move.h"
+#include "movegen.h"
 #include "primitives.h"
 
 #include <iostream>
@@ -191,11 +192,8 @@ std::vector<Move> *Position::GenerateLegalMoves(Magics &m) const
             switch (p)
             {
             case Piece::W_PAWN:
-                /* code */
-                break;
-
             case Piece::B_PAWN:
-                /* code */
+                moves = pawnAttacks((Square)sq, Occupancy, ColorToMove);
                 break;
 
             case Piece::B_KNIGHT:

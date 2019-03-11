@@ -1,5 +1,6 @@
 #include "move.h"
 #include "constants.h"
+#include "movegen.h"
 #include "primitives.h"
 
 char *EnglishFromMove(Move m)
@@ -19,16 +20,4 @@ char *EnglishFromMove(Move m)
     c[i++] = PieceChars[((m & PROMOTION_MASK) >> PROMOTION_SHIFT)];
     c[i++] = '\0';
     return c;
-}
-
-// from 0 to 7
-int rankFromSq(Square sq)
-{
-    return (int)sq / NUM_FILES;
-}
-
-// from 0 to 7
-int fileFromSq(Square sq)
-{
-    return (int)sq % NUM_RANKS;
 }

@@ -1,6 +1,7 @@
 #include "movegen.h"
 #include "bitboard.h"
 #include "constants.h"
+#include "position.h"
 #include "primitives.h"
 
 BitBoard ManualBishopAttacks(const Square bishop, const BitBoard occupancy)
@@ -114,20 +115,62 @@ int fileFinder(BitBoard b)
     return n;
 }
 
+// from 0 to 7
+int rankFromSq(Square sq)
+{
+    return (int)sq / NUM_FILES;
+}
+
+// from 0 to 7
+int fileFromSq(Square sq)
+{
+    return (int)sq % NUM_RANKS;
+}
+
 BitBoard pawnAttacks(Square sq, BitBoard occ, Color c)
 {
     BitBoard moves = BB_NoSquares;
     BitBoard BBsq = BBgenerate(sq);
+    int sqrank = rankFromSq(sq);
 
     switch (c)
     {
     case Color::WHITE:
 
+        if (((BBsq << 8) & occ) == 0)
+        {
+            moves ^= BBsq << 8;
+            if ((((BBsq << 16) & occ) == 0) && sqrank == 1)
+
+                moves ^= BBsq << 16;
+        }
+
+        if ((BBsq << 7) & occ & BB_Ranks[sqrank + 1]) // maybe BB_rank1 << 8*(sqrank)
+            moves ^= BBsq << 7;
+
+        if ((BBsq << 9) & occ & BB_Ranks[sqrank + 1])
+            moves ^= BBsq << 9;
+
         break;
     case Color::BLACK:
+        if (((BBsq >> 8) & occ) == 0)
+        {
+            moves ^= BBsq >> 8;
+            if ((((BBsq >> 16) & occ) == 0) && sqrank == 6)
+            {
+                moves ^= BBsq >> 16;
+            }
+        }
+
+        if ((BBsq >> 7) & occ & BB_Ranks[sqrank - 1])
+            moves ^= BBsq >> 7;
+
+        if ((BBsq >> 9) & occ & BB_Ranks[sqrank - 1])
+            moves ^= BBsq >> 9;
 
         break;
     default:
         break;
     }
+    return moves;
 }
