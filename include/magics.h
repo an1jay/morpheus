@@ -11,17 +11,18 @@ class Magics
   public:
     Magics(bool useExisting);
     ~Magics();
+
     BitBoard AttackFor(Square sq, BitBoard occupancy, PieceType PT) const;
     void PrintMagics() const;
 
   private:
     BitBoard BishopMagics[64];
     BitBoard RookMagics[64];
+    BitBoard (*BishopMagicAttacks)[BishopMax];
+    BitBoard (*RookMagicAttacks)[RookMax];
 
     void initBishops(bool useExisting);
     void initRooks(bool useExisting);
-    BitBoard (*BishopMagicAttacks)[BishopMax];
-    BitBoard (*RookMagicAttacks)[RookMax];
 };
 
 BitBoard genRand();

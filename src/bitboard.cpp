@@ -8,30 +8,6 @@ void BBbinaryPrint(const BitBoard b)
     std::cout << std::bitset<64>(b) << std::endl;
 }
 
-void BBprettyPrint(const BitBoard b)
-{
-    std::cout << "|  8th R |  7th R |  6th R |  5th R |  4th R |  3rd R |  2nd R |  1st R |" << std::endl;
-    std::cout << "|ABCDEFGH|ABCDEFGH|ABCDEFGH|ABCDEFGH|ABCDEFGH|ABCDEFGH|ABCDEFGH|ABCDEFGH|" << std::endl;
-
-    for (int r = NUM_RANKS - 1; r >= 0; --r)
-    {
-        std::cout << "|";
-        for (int sq = 0; sq < NUM_SQUARES_LINE; ++sq)
-        {
-            // std::cout << r * NUM_SQUARES_LINE + sq << " " ;
-            if ((b >> (r * NUM_SQUARES_LINE + sq)) & (BitBoard)1)
-            {
-                std::cout << "X";
-            }
-            else
-            {
-                std::cout << "-";
-            }
-        }
-    }
-    std::cout << "|" << std::endl;
-}
-
 void BBboardPrint(const BitBoard b)
 {
     for (int r = NUM_RANKS - 1; r >= 0; --r)

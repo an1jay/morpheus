@@ -5,7 +5,6 @@
 typedef uint_fast64_t BitBoard;
 
 void BBbinaryPrint(BitBoard b); // Prints the bitboard as a binary number
-void BBprettyPrint(BitBoard b); // Prints the bitboard as a binary number in a slightly more readable way
 void BBboardPrint(BitBoard b);  // Prints the bitboard as a chess board
 
 bool BBoccupied(const BitBoard b, const Square sq); // Checks whether the square s is occupied on the bitboard b
