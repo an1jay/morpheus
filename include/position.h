@@ -1,6 +1,7 @@
 #include "bitboard.h"
 #include "magics.h"
 #include "mailbox.h"
+#include "move.h"
 #include "primitives.h"
 #include <vector>
 
@@ -24,7 +25,7 @@ class Position
 
     Piece pieceAtSquare(Square sq);           // Returns the piece at a square
     BitBoard BBForPiece(const Piece p) const; // Returns a bitboard for a piece
-    void UpdateBitBoards();                   // update bitboards from the mailbox
+    void SyncBBfromPieceList();               // update bitboards from the mailbox
 
   public:
     Position(); // Makes new game position

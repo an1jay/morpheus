@@ -2,6 +2,7 @@
 #include "bitboard.h"
 #include "constants.h"
 #include "magics.h"
+#include "move.h"
 #include "primitives.h"
 
 #include <iostream>
@@ -24,11 +25,13 @@ Position::Position()
     };
     // clang-format on
     PieceList = MailBox(newGamePos);
-    UpdateBitBoards();
+    SyncBBfromPieceList();
+
+    ColorToMove = Color::WHITE;
 }
 
 // Updates BitBoards to match piece list
-void Position::UpdateBitBoards()
+void Position::SyncBBfromPieceList()
 {
     Piece p;
     for (int sq = 0; sq < NUM_SQUARES_BOARD; ++sq)
@@ -39,7 +42,7 @@ void Position::UpdateBitBoards()
         case Piece::W_PAWN:
         case Piece::B_PAWN:
             Pawns ^= BBgenerate((Square)sq);
-            if (PieceColor(p) == Color::WHITE)
+            if (ColorFromPiece(p) == Color::WHITE)
                 WhitePieces ^= BBgenerate((Square)sq);
             else
                 BlackPieces ^= BBgenerate((Square)sq);
@@ -47,7 +50,7 @@ void Position::UpdateBitBoards()
         case Piece::W_KNIGHT:
         case Piece::B_KNIGHT:
             Knights ^= BBgenerate((Square)sq);
-            if (PieceColor(p) == Color::WHITE)
+            if (ColorFromPiece(p) == Color::WHITE)
                 WhitePieces ^= BBgenerate((Square)sq);
             else
                 BlackPieces ^= BBgenerate((Square)sq);
@@ -55,7 +58,7 @@ void Position::UpdateBitBoards()
         case Piece::W_BISHOP:
         case Piece::B_BISHOP:
             Bishops ^= BBgenerate((Square)sq);
-            if (PieceColor(p) == Color::WHITE)
+            if (ColorFromPiece(p) == Color::WHITE)
                 WhitePieces ^= BBgenerate((Square)sq);
             else
                 BlackPieces ^= BBgenerate((Square)sq);
@@ -63,7 +66,7 @@ void Position::UpdateBitBoards()
         case Piece::W_ROOK:
         case Piece::B_ROOK:
             Rooks ^= BBgenerate((Square)sq);
-            if (PieceColor(p) == Color::WHITE)
+            if (ColorFromPiece(p) == Color::WHITE)
                 WhitePieces ^= BBgenerate((Square)sq);
             else
                 BlackPieces ^= BBgenerate((Square)sq);
@@ -71,7 +74,7 @@ void Position::UpdateBitBoards()
         case Piece::W_QUEEN:
         case Piece::B_QUEEN:
             Queens ^= BBgenerate((Square)sq);
-            if (PieceColor(p) == Color::WHITE)
+            if (ColorFromPiece(p) == Color::WHITE)
                 WhitePieces ^= BBgenerate((Square)sq);
             else
                 BlackPieces ^= BBgenerate((Square)sq);
@@ -79,7 +82,7 @@ void Position::UpdateBitBoards()
         case Piece::W_KING:
         case Piece::B_KING:
             Kings ^= BBgenerate((Square)sq);
-            if (PieceColor(p) == Color::WHITE)
+            if (ColorFromPiece(p) == Color::WHITE)
                 WhitePieces ^= BBgenerate((Square)sq);
             else
                 BlackPieces ^= BBgenerate((Square)sq);
@@ -88,6 +91,7 @@ void Position::UpdateBitBoards()
             break;
         }
     }
+    Occupancy = WhitePieces ^ BlackPieces;
 }
 
 //Returns Bitboard for any piece
@@ -157,7 +161,6 @@ std::vector<Move> *Position::GenerateLegalMoves(Magics &m) const
     std::vector<Move> legal_moves;
     Piece p;
     BitBoard moves;
-    Occupancy = BlackPieces ^ WhitePieces;
 
     Move finalMove;
 
@@ -172,7 +175,7 @@ std::vector<Move> *Position::GenerateLegalMoves(Magics &m) const
     for (int sq = 0; sq < NUM_SQUARES_BOARD; sq++)
     {
         p = PieceList.Occupation((Square)sq);
-        if (PieceColor(p) == ColorToMove)
+        if (ColorFromPiece(p) == ColorToMove)
         {
             switch (p)
             {
@@ -234,10 +237,10 @@ std::vector<Move> *Position::GenerateLegalMoves(Magics &m) const
 
                 if ((p == Piece::W_PAWN || p == Piece::B_PAWN) && (((BBgenerate((Square)targetSq) & BB_Rank8) != 0) || ((BBgenerate((Square)targetSq) & BB_Rank1) != 0)))
                 {
-                    legal_moves.emplace_back(finalMove ^ ((Move)Piece(PieceType::KNIGHT, ColorToMove) << PROMOTION_SHIFT));
-                    legal_moves.emplace_back(finalMove ^ ((Move)Piece(PieceType::BISHOP, ColorToMove) << PROMOTION_SHIFT));
-                    legal_moves.emplace_back(finalMove ^ ((Move)Piece(PieceType::ROOK, ColorToMove) << PROMOTION_SHIFT));
-                    legal_moves.emplace_back(finalMove ^ ((Move)Piece(PieceType::QUEEN, ColorToMove) << PROMOTION_SHIFT));
+                    legal_moves.emplace_back(finalMove ^ ((Move)PieceFromTypeColor(PieceType::KNIGHT, ColorToMove) << PROMOTION_SHIFT));
+                    legal_moves.emplace_back(finalMove ^ ((Move)PieceFromTypeColor(PieceType::BISHOP, ColorToMove) << PROMOTION_SHIFT));
+                    legal_moves.emplace_back(finalMove ^ ((Move)PieceFromTypeColor(PieceType::ROOK, ColorToMove) << PROMOTION_SHIFT));
+                    legal_moves.emplace_back(finalMove ^ ((Move)PieceFromTypeColor(PieceType::QUEEN, ColorToMove) << PROMOTION_SHIFT));
                 }
                 else
                 {

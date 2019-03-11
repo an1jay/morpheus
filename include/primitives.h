@@ -62,7 +62,7 @@ enum class Color : int_fast8_t
     COLOR_NONE = 0,
 };
 
-inline Color PieceColor(Piece p)
+inline Color ColorFromPiece(Piece p)
 {
     if (p == Piece::PIECE_NONE)
         return Color::COLOR_NONE;
@@ -73,7 +73,7 @@ inline Color PieceColor(Piece p)
     return Color::BLACK;
 }
 
-inline Piece Piece(PieceType pt, Color c)
+inline Piece PieceFromTypeColor(PieceType pt, Color c)
 {
     switch (c)
     {
@@ -116,7 +116,3 @@ inline Piece Piece(PieceType pt, Color c)
         break;
     }
 }
-
-//   6 for en passant, 4 for piece that promoting to, 2 for castle, 1 for capture, 4 for piece type, 2 for colour,
-//   6 x 2 for square starting and moving to,
-typedef uint32_t Move;

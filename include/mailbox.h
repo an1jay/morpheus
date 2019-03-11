@@ -1,5 +1,4 @@
 #include "bitboard.h"
-#include "constants.h"
 #include "primitives.h"
 
 #pragma once
