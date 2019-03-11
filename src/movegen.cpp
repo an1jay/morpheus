@@ -113,3 +113,21 @@ int fileFinder(BitBoard b)
         n++;
     return n;
 }
+
+BitBoard pawnAttacks(Square sq, BitBoard occ, Color c)
+{
+    BitBoard moves = BB_NoSquares;
+    BitBoard BBsq = BBgenerate(sq);
+
+    switch (c)
+    {
+    case Color::WHITE:
+
+        break;
+    case Color::BLACK:
+
+        break;
+    default:
+        break;
+    }
+}

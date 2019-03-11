@@ -13,3 +13,5 @@ BitBoard Diagonal(Square sq);
 BitBoard AntiDiagonal(Square sq);
 BitBoard Rank(Square sq);
 BitBoard File(Square sq);
+
+BitBoard pawnAttacks(Square sq, BitBoard occ)
